@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+MDE_DOTS_DIR="$HOME/.config/mde/dots"
+CONFIG_DIR="$HOME/.config"
+
+# Ensure target .config subdirectories exist if necessary
+mkdir -p "$CONFIG_DIR/terminator"
+
+# Use ln -sfn to forcibly create/update symbolic links
+ln -sfn "$MDE_DOTS_DIR/bashrc" "$HOME/.bashrc"
+# The terminator config link is now handled in install_configs to link the file directly
+# ln -sfn "$MDE_DOTS_DIR/terminator/config" "$CONFIG_DIR/terminator/config"
+# user-dirs.dirs and user-dirs.locale are also handled in install_configs
+# ln -sfn "$MDE_DOTS_DIR/user-dirs.dirs" "$CONFIG_DIR/user-dirs.dirs"
+# ln -sfn "$MDE_DOTS_DIR/user-dirs.locale" "$CONFIG_DIR/user-dirs.locale"
+
+echo "Linking_all script has linked .bashrc. Other links are managed by install_configs.sh"

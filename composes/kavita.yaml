@@ -1,0 +1,15 @@
+services:
+    kavita:
+        image: jvmilazz0/kavita:latest    # Using the stable branch from the offical repo.
+        container_name: kavita
+        volumes:
+            - /root/media/manga:/manga            # Manga is just an example you can have the name you want. See the following
+            - /root/media/comics:/comics          # Use as many as you want
+            - /root/media/books:/books            #
+            - /root/apps_data/kavita:/kavita/config     # Change './data if you want to have the config files in a different place.
+                                        # /kavita/config must not be changed
+        env_file:
+            - ./env_files/kavita.env
+        ports:
+            - "5000:5000" # Change the public port (the first 5000) if you have conflicts with other services
+        restart: unless-stopped

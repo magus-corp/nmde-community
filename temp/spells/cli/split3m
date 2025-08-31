@@ -1,0 +1,67 @@
+#!/usr/bin/env python3
+import os
+import sys
+
+# --- Venv Self-Execution ---
+VENV_PYTHON = os.path.expanduser("~/.magustui/.venv/bin/python")
+if sys.executable != VENV_PYTHON:
+    if os.path.exists(VENV_PYTHON):
+        os.execv(VENV_PYTHON, [VENV_PYTHON] + sys.argv)
+    else:
+        print(f"Error: MagusTUI virtual environment not found at {VENV_PYTHON}", file=sys.stderr)
+        sys.exit(1)
+# --- End Venv Self-Execution ---
+
+import subprocess
+import argparse
+
+def split_videos(input_path):
+    """
+    A spell of temporal fragmentation, to divide a video into 3-minute segments.
+    This incantation will take a video file or a directory of videos and split
+    each into smaller, more manageable chunks of time.
+    """
+    chunk_sec = 180  # 3 minutes
+    video_extensions = ['.mp4', '.mkv', '.mov', '.avi']
+    files_to_process = []
+
+    if os.path.isdir(input_path):
+        for f in os.listdir(input_path):
+            if os.path.isfile(os.path.join(input_path, f)) and any(f.lower().endswith(ext) for ext in video_extensions):
+                files_to_process.append(os.path.join(input_path, f))
+    elif os.path.isfile(input_path):
+        files_to_process.append(input_path)
+    else:
+        print(f"Error: '{input_path}' is not a file or directory.")
+        return
+
+    if not files_to_process:
+        print("No videos found.")
+        return
+
+    for vid in files_to_process:
+        filename = os.path.basename(vid)
+        name, ext = os.path.splitext(filename)
+        parent = os.path.dirname(vid)
+        outdir = os.path.join(parent, name)
+
+        os.makedirs(outdir, exist_ok=True)
+        print(f"Splitting '{filename}' → 3-min chunks in '{outdir}/' as partXXX{ext}")
+
+        subprocess.run([
+            "ffmpeg", "-nostdin", "-y", "-v", "warning", "-stats",
+            "-i", vid,
+            "-c", "copy", "-map", "0",
+            "-f", "segment",
+            "-segment_time", str(chunk_sec),
+            "-reset_timestamps", "1",
+            os.path.join(outdir, f"part%03d{ext}")
+        ])
+
+    print("Done.")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Splits video(s) into 3-minute chunks.")
+    parser.add_argument("input_path", help="Path to a video file or a directory containing videos.")
+    args = parser.parse_args()
+    split_videos(args.input_path)

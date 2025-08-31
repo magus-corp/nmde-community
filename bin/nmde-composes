@@ -1,0 +1,174 @@
+#!/bin/bash
+# shellcheck disable=SC2155
+
+# This script manages docker-compose applications using a gum-based UI.
+
+COMPOSE_DIR="/home/cmgus/projects/magus/nmde/composes"
+STATE_FILE="$COMPOSE_DIR/.state"
+VENV_DIR="/home/cmgus/projects/magus/nmde/.venv"
+NMDE_ENV_SCRIPT="/home/cmgus/projects/magus/nmde/bin/nmde-env"
+YQ_PATH="$VENV_DIR/bin/yq"
+
+# Function to check for dependencies
+check_dependencies() {
+    if [ ! -f "$YQ_PATH" ]; then
+        echo "Error: 'yq' is not installed in the virtual environment."
+        echo "Please run the install/setup-python.sh script."
+        sleep 3
+        exit 1
+    fi
+}
+
+# Function to get the list of docker-compose files
+get_compose_files() {
+    find "$COMPOSE_DIR" -maxdepth 1 -type f \( -name "*.yml" -o -name "*.yaml" \) -exec basename {} \;
+}
+
+# Function to get the list of "up" applications
+get_up_apps() {
+    if [[ -f "$STATE_FILE" ]]; then
+        cat "$STATE_FILE"
+    fi
+}
+
+# Function to check for port overlaps
+check_for_port_overlaps() {
+    local ports=()
+    local files=()
+    local overlaps=()
+
+    for file in $(get_compose_files); do
+        local file_path="$COMPOSE_DIR/$file"
+        # The 'jq' filter with '?' handles cases where ports are not defined.
+        # Redirecting stderr to /dev/null to keep the output clean.
+        local file_ports
+        file_ports=$("$YQ_PATH" '.services.*.ports[]?' "$file_path" 2>/dev/null | cut -d: -f1)
+        for port in $file_ports; do
+            if [[ " ${ports[*]} " =~ " ${port} " ]]; then
+                overlaps+=("$port")
+            else
+                ports+=("$port")
+                files+=("$file")
+            fi
+        done
+    done
+
+    if [[ ${#overlaps[@]} -gt 0 ]]; then
+        echo "WARNING: Port overlap detected!"
+        for port in "${overlaps[@]}"; do
+            local overlapping_files=()
+            local i=0
+            for p in "${ports[@]}"; do
+                if [[ "$p" == "$port" ]]; then
+                    overlapping_files+=("${files[$i]}")
+                fi
+                i=$((i+1))
+            done
+            echo "Port $port is used in: ${overlapping_files[*]}"
+        done
+        gum spin --spinner "globe" --title "Port overlap detected!" -- sleep 5
+    fi
+}
+
+# Function to sync the applications
+sync_apps() {
+    local up_apps
+    mapfile -t up_apps < <(get_up_apps)
+    local all_apps
+    mapfile -t all_apps < <(get_compose_files)
+
+    echo "#!/bin/bash" > sync-commands.sh
+    echo "# Commands to sync docker-compose applications" >> sync-commands.sh
+    echo "" >> sync-commands.sh
+
+    for app in "${all_apps[@]}"; do
+        local app_path="$COMPOSE_DIR/$app"
+        if [[ " ${up_apps[*]} " =~ " ${app} " ]]; then
+            # App is selected to be up
+            local app_name
+            app_name=$(basename "$app" .yml | sed 's/\.yaml$//')
+            local env_vars
+            env_vars=$($NMDE_ENV_SCRIPT list "$app_name" | awk '{print "-e " $1 "=" $2}' ORS=' ')
+            echo "echo 'Bringing up $app_name...'" >> sync-commands.sh
+            echo "docker-compose -f $app_path up -d $env_vars" >> sync-commands.sh
+        else
+            # App is not selected, so it should be down
+            echo "echo 'Bringing down $(basename "$app" .yml | sed 's/\.yaml$//')...'" >> sync-commands.sh
+            echo "docker-compose -f $app_path down" >> sync-commands.sh
+        fi
+    done
+
+    chmod +x sync-commands.sh
+    echo "Sync script generated: ./sync-commands.sh"
+    echo "The Tester should review and run this script."
+    sleep 3
+}
+
+# Main menu
+main_menu() {
+    check_dependencies
+    check_for_port_overlaps
+    clear
+
+    local options=()
+    mapfile -t options < <(get_compose_files)
+    options+=("Sync" "Exit")
+
+    local up_apps=()
+    mapfile -t up_apps < <(get_up_apps)
+
+    local choices
+    choices=$(printf "%s
+" "${options[@]}" | gum choose --no-limit --header "Select applications (space to select, enter to confirm)" --selected "$(printf "%s
+" "${up_apps[@]}")")
+
+    # If the user presses ESC, exit
+    if [ -z "$choices" ]; then
+        return
+    fi
+    
+    local new_state=""
+    local sync_chosen=false
+    local exit_chosen=false
+
+    # Process choices
+    for item in $choices; do
+        case "$item" in
+            Sync)
+                sync_chosen=true
+                ;;
+            Exit)
+                exit_chosen=true
+                ;;
+            *)
+                new_state+="$item
+"
+                ;;
+        esac
+    done
+
+    if [ "$exit_chosen" = true ]; then
+        return
+    fi
+
+    echo -n "$new_state" > "$STATE_FILE"
+    echo "State updated."
+    sleep 1
+
+    if [ "$sync_chosen" = true ]; then
+        sync_apps
+    fi
+
+    # Loop back to the main menu
+    main_menu
+}
+
+# Main function
+main() {
+    if [[ ! -f "$STATE_FILE" ]]; then
+        touch "$STATE_FILE"
+    fi
+    main_menu
+}
+
+main

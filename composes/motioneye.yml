@@ -1,0 +1,17 @@
+services:
+  motioneye:
+    image: ccrisan/motioneye:master-amd64
+    restart: unless-stopped
+    ports:
+      - 8765:8765
+      - 8081:8081
+      - 8082:8082
+      - 8083:8083
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./volumes/motioneye/etc_motioneye:/etc/motioneye
+      - ./volumes/motioneye/var_lib_motioneye:/var/lib/motioneye
+    devices:
+    - "/dev/video0:/dev/video0"
+    - "/dev/video2:/dev/video2"
+    - "/dev/video4:/dev/video4"

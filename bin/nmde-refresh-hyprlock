@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Overwrite local Hyprlock settings with the latest in nmde
+nmde-refresh-config hypr/hyprlock.conf

@@ -1,0 +1,8 @@
+[Unit]
+Description=nmde Battery Monitor Check
+After=graphical-session.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/share/nmde/bin/nmde-battery-monitor
+Environment=DISPLAY=:0

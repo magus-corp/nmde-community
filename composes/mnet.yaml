@@ -1,0 +1,26 @@
+version: "3.3"
+services:
+  petals:
+    ports:
+      - 31330:31330
+    ipc: host
+    restart: always
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities:
+                - gpu
+    volumes:
+      - ./petals-cache:/cache
+    image: learningathome/petals:2.2
+    env_file:
+      - ./env_files/mnet.env
+    command: >
+      sh -c 'python -m petals.cli.run_server --port 31330
+      meta-llama/Meta-Llama-3-8B-Instruct
+      --token $$HF_TOKEN
+      --initial_peers /ip4/35.193.78.153/tcp/31337/p2p/QmexzJsqEhhViHDSkFHFqANmp28oUBsJ3RJ2Ssi1ZQwg3q'
+networks: {}

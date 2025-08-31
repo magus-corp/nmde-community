@@ -1,0 +1,62 @@
+#!/bin/bash
+
+# --- Style Definitions using bash arrays for robustness ---
+# This is a more reliable way to store command arguments.
+HEADER_STYLE=(--border double --align center --padding '1 2' --border-foreground 212 --foreground 212)
+STEP_STYLE=(--foreground 5)
+SUCCESS_STYLE=(--foreground 2 --bold)
+
+# --- Header ---
+# The "${VAR[@]}" syntax ensures each part of the style is a separate argument.
+gum style "${HEADER_STYLE[@]}" "File Organizer Deluxe"
+
+# --- Function to move files with a gum spinner ---
+move_files() {
+  local type_name="$1"
+  local dest_folder="$2"
+  shift 2
+  local find_patterns=("$@")
+
+  # Use the array to correctly pass style flags.
+  gum style "${STEP_STYLE[@]}" "Looking for $type_name files to move to ~/${dest_folder##*/}..."
+
+  # Build the 'find' command's arguments into a string for 'bash -c'
+  local find_args_str=""
+  for pattern in "${find_patterns[@]}"; do
+    if [ -z "$find_args_str" ]; then
+      if [ "$pattern" = "-executable" ]; then
+        find_args_str="-executable"
+      else
+        find_args_str="-name '$pattern'"
+      fi
+    else
+      if [ "$pattern" = "-executable" ]; then
+        find_args_str="$find_args_str -o -executable"
+      else
+        find_args_str="$find_args_str -o -name '$pattern'"
+      fi
+    fi
+  done
+
+  # If we found any patterns, construct and run the command
+  if [ -n "$find_args_str" ]; then
+    local full_command="find ~/downloads ~ -maxdepth 1 -type f \( $find_args_str \) -exec mv -t '$dest_folder' {} +"
+
+    gum spin --spinner dot --title "Moving files..." -- bash -c "$full_command"
+  fi
+
+  echo # Add a newline for better spacing
+}
+
+# --- Main Script Logic ---
+gum spin --spinner dot --title "Setting up directories..." -- bash -c "mkdir -p ~/documents ~/pictures ~/videos ~/sandbox"
+
+move_files "Documents" "$HOME/documents" "*.pdf" "*.md" "*.txt" "*.doc" "*.docx"
+move_files "Images" "$HOME/pictures" "*.jpg" "*.jpeg" "*.png" "*.gif" "*.bmp" "*.svg" "*.webp"
+move_files "Videos" "$HOME/videos" "*.mp4" "*.mov" "*.avi" "*.mkv" "*.webm"
+move_files "Audios" "$HOME/audios" "*.mp3" "*.ogg"
+move_files "Code & Executables" "$HOME/sandbox" "*.py" "*.rs" "*.go" "*.sh" "-executable"
+
+# --- Completion Message ---
+# Use the array for the success message style.
+gum style "${SUCCESS_STYLE[@]}" "✅ All done! Your files are organized."

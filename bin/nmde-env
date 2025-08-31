@@ -1,0 +1,71 @@
+#!/bin/bash
+
+# This script will manage environment variables for the applications.
+# It will use a SQLite database to store the variables.
+
+DB_PATH="/home/cmgus/projects/magus/nmde/config/nmde.db"
+
+# Function to show usage
+usage() {
+    echo "Usage: $0 <command> [app_name] [key] [value]"
+    echo "Commands:"
+    echo "  set <app_name> <key> <value>  - Set an environment variable for an application."
+    echo "  get <app_name> <key>          - Get an environment variable for an application."
+    echo "  list <app_name>               - List all environment variables for an application."
+    echo "  delete <app_name> <key>       - Delete an environment variable for an application."
+}
+
+# Function to execute a sqlite3 command
+execute_sql() {
+    sqlite3 "$DB_PATH" "$1"
+}
+
+# Main function
+main() {
+    local command=$1
+    local app_name=$2
+    local key=$3
+    local value=$4
+
+    if [[ -z "$command" ]]; then
+        usage
+        exit 1
+    fi
+
+    case "$command" in
+        set)
+            if [[ -z "$app_name" || -z "$key" || -z "$value" ]]; then
+                usage
+                exit 1
+            fi
+            execute_sql "INSERT OR REPLACE INTO env_vars (app_name, key, value) VALUES ('$app_name', '$key', '$value');"
+            ;;
+        get)
+            if [[ -z "$app_name" || -z "$key" ]]; then
+                usage
+                exit 1
+            fi
+            execute_sql "SELECT value FROM env_vars WHERE app_name = '$app_name' AND key = '$key';"
+            ;;
+        list)
+            if [[ -z "$app_name" ]]; then
+                usage
+                exit 1
+            fi
+            execute_sql "SELECT key, value FROM env_vars WHERE app_name = '$app_name';"
+            ;;
+        delete)
+            if [[ -z "$app_name" || -z "$key" ]]; then
+                usage
+                exit 1
+            fi
+            execute_sql "DELETE FROM env_vars WHERE app_name = '$app_name' AND key = '$key';"
+            ;;
+        *)
+            usage
+            exit 1
+            ;;
+    esac
+}
+
+main "$@"

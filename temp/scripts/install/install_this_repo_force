@@ -1,0 +1,40 @@
+#!/bin/bash
+
+MDE_DIR="$HOME/.config/mde"
+rm -rfv $MDE_DIR
+if [ -d "$MDE_DIR" ]; then
+    echo "MDE directory already exists at $MDE_DIR."
+    echo "Please remove it or back it up if you intend a completely fresh installation."
+    echo "Alternatively, navigate to $MDE_DIR and run 'git pull' to update."
+    # exit 1 # Uncomment to make the script exit if directory exists
+else
+    echo "Cloning MDE repository..."
+    git clone git@github.com:magus-corp/mde.git "$MDE_DIR"
+    if [ $? -ne 0 ]; then
+        echo "Failed to clone repository. Exiting."
+        exit 1
+    fi
+fi
+
+echo "Installing dependencies..."
+sh "$MDE_DIR/scripts/install_all_dependencies"
+
+echo "Installing dwm things..."
+echo "Installing dwm..."
+cd $HOME/.config/mde/apps/dwm && sudo make clean install
+echo "Installing dwmblocks..."
+cd $HOME/.config/mde/apps/dwmblocks && sudo make clean install
+# ... and so on for other dwm-related applications ...
+
+echo "Installing AstroVim..."
+sh "$MDE_DIR/scripts/install_astrovim"
+
+echo "Installing Ollama..."
+sh "$MDE_DIR/scripts/install_ollama"
+
+echo "Installing MagusTUI..."
+sh "$MDE_DIR/scripts/install/install_magustui"
+
+echo "Installing configurations..."
+sh "$MDE_DIR/scripts/install_configs"
+sh "$MDE_DIR/scripts/linking_all"

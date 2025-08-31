@@ -1,0 +1,17 @@
+version: "2.1"
+services:
+ kasm:
+   image: lscr.io/linuxserver/kasm:latest
+   container_name: kasm
+   privileged: true
+   env_file:
+     - ./env_files/kasm-workspaces.env
+   volumes:
+     - /root/apps_data/kasm/data:/opt
+       #     - /root/apps_data/kasm/profiles:/profiles #optional
+       #     - /root/apps_data/kasm/dev/input:/dev/input #optional
+       #     - /root/apps_data/kasm/run/udev/data:/run/udev/data #optional
+   ports:
+     - 3000:3000
+     - 8443:443
+   restart: unless-stopped

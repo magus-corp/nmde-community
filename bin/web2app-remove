@@ -1,0 +1,43 @@
+#!/bin/bash
+#
+# Removes a desktop launcher and its associated icon created by web2app.
+#
+# Usage: web2app-remove <AppName>
+# Example: web2app-remove "My-App"
+
+set -euo pipefail
+
+if [ "$#" -ne 1 ]; then
+  echo "Usage: web2app-remove <AppName>"
+  exit 1
+fi
+
+APP_NAME="$1"
+
+APP_DIR="$HOME/.local/share/applications"
+ICON_DIR="$APP_DIR/icons"
+DESKTOP_FILE="$APP_DIR/${APP_NAME}.desktop"
+ICON_PATH="${ICON_DIR}/${APP_NAME}.png"
+
+if [ ! -f "$DESKTOP_FILE" ]; then
+  echo "Error: Desktop file not found for '$APP_NAME' at $DESKTOP_FILE"
+  exit 1
+fi
+
+echo "Removing launcher and icon for $APP_NAME..."
+
+if rm "$DESKTOP_FILE"; then
+  echo "Removed desktop file: $DESKTOP_FILE"
+else
+  echo "Warning: Could not remove desktop file."
+fi
+
+if [ -f "$ICON_PATH" ]; then
+  if rm "$ICON_PATH"; then
+    echo "Removed icon: $ICON_PATH"
+  else
+    echo "Warning: Could not remove icon file."
+  fi
+fi
+
+echo "Removal complete."

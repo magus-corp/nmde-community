@@ -1,0 +1,157 @@
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - gitHubApp:
+          appID: "345938"
+          description: "gitapp"
+          id: "gitapp"
+          privateKey: "{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}"
+jenkins:
+  agentProtocols:
+  - "JNLP4-connect"
+  - "Ping"
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+  clouds:
+  - kubernetes:
+      containerCap: 10
+      containerCapStr: "10"
+      jenkinsTunnel: "jenkins-agent.jenkins.svc.cluster.local:50000"
+      jenkinsUrl: "http://jenkins.jenkins.svc.cluster.local:8080"
+      name: "kubernetes"
+      namespace: "jenkins"
+      podLabels:
+      - key: "jenkins/jenkins-makes-jenkins-agent"
+        value: "true"
+      serverUrl: "https://kubernetes.default"
+      templates:
+      - containers:
+        - args: "^${computer.jnlpmac} ^${computer.name}"
+          envVars:
+          - envVar:
+              key: "JENKINS_URL"
+              value: "http://jenkins.jenkins.svc.cluster.local:8080/"
+          image: "jenkins/jnlp-agent-docker:latest"
+          name: "jnlp"
+          resourceLimitCpu: "512m"
+          resourceLimitMemory: "512Mi"
+          resourceRequestCpu: "512m"
+          resourceRequestMemory: "512Mi"
+          workingDir: "/home/jenkins/agent"
+        id: "e53f028565279eed63ffeb6aab0174ee12e954079da018c60a9bb9a765f17312"
+        label: "jenkins-makes-jenkins-agent"
+        name: "makes-jenkins"
+        namespace: "jenkins"
+        nodeUsageMode: "NORMAL"
+        podRetention: "never"
+        serviceAccount: "default"
+        slaveConnectTimeout: 100
+        slaveConnectTimeoutStr: "100"
+        volumes:
+        - hostPathVolume:
+            hostPath: "/usr/bin/docker"
+            mountPath: "/usr/bin/docker"
+            readOnly: false
+        - hostPathVolume:
+            hostPath: "/usr/bin/docker"
+            mountPath: "/usr/bin/docker"
+            readOnly: false
+        yamlMergeStrategy: "override"
+  crumbIssuer:
+    standard:
+      excludeClientIPFromCrumb: true
+  disableRememberMe: false
+  labelAtoms:
+  - name: "built-in"
+  - name: "jenkins-makes-jenkins-agent"
+  markupFormatter: "plainText"
+  mode: NORMAL
+  myViewsTabBar: "standard"
+  numExecutors: 0
+  primaryView:
+    all:
+      name: "all"
+  projectNamingStrategy: "standard"
+  quietPeriod: 5
+  remotingSecurity:
+    enabled: true
+  scmCheckoutRetryCount: 0
+  securityRealm:
+    local:
+      allowsSignup: false
+      enableCaptcha: false
+      users:
+      - id: "themememaster"
+        name: "Jenkins Admin"
+        properties:
+        - "apiToken"
+        - "mailer"
+        - "myView"
+        - preferredProvider:
+            providerId: "default"
+        - "timezone"
+        - "experimentalFlags"
+  slaveAgentPort: 50000
+  updateCenter:
+    sites:
+    - id: "default"
+      url: "https://updates.jenkins.io/update-center.json"
+  views:
+  - all:
+      name: "all"
+  viewsTabBar: "standard"
+globalCredentialsConfiguration:
+  configuration:
+    providerFilter: "none"
+    typeFilter: "none"
+security:
+  apiToken:
+    creationOfLegacyTokenEnabled: false
+    tokenGenerationOnCreationEnabled: false
+    usageStatisticsEnabled: true
+  gitHooks:
+    allowedOnAgents: false
+    allowedOnController: false
+  gitHostKeyVerificationConfiguration:
+    sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
+unclassified:
+  buildDiscarders:
+    configuredBuildDiscarders:
+    - "jobBuildDiscarder"
+  fingerprints:
+    fingerprintCleanupDisabled: false
+    storage: "file"
+  gitHubConfiguration:
+    apiRateLimitChecker: ThrottleForNormalize
+  gitHubPluginConfig:
+    hookUrl: "https://jenkins.test.makes.ai/github-webhook/"
+  githubPullRequests:
+    actualiseOnFactory: false
+  junitTestResultStorage:
+    storage: "file"
+  location:
+    adminAddress: "address not configured yet <nobody@nowhere>"
+  mailer:
+    charset: "UTF-8"
+    useSsl: false
+    useTls: false
+  pollSCM:
+    pollingThreadCount: 10
+  scmGit:
+    addGitTagAction: false
+    allowSecondFetch: false
+    createAccountBasedOnEmail: false
+    disableGitToolChooser: false
+    hideCredentials: false
+    showEntireCommitSummaryInChanges: false
+    useExistingAccountWithSameEmail: false
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
+  mavenGlobalConfig:
+    globalSettingsProvider: "standard"
+    settingsProvider: "standard"

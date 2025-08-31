@@ -1,0 +1,5 @@
+#!/bin/bash
+
+pgrep -f "alacritty --class Screensaver" ||
+  alacritty --class Screensaver --title Screensaver -o 'colors.primary.background="#000000"' \
+    -o 'colors.cursor.cursor="#000000"' -e ~/.local/share/nmde/bin/nmde-cmd-screensaver

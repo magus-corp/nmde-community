@@ -1,0 +1,13 @@
+#!/bin/bash
+
+nmde_path="$HOME/.local/share/nmde"
+latest_tag=$(git -C $nmde_path ls-remote --tags origin | grep -v "{}" | awk '{print $2}' | sed 's#refs/tags/##' | sort -V | tail -n 1)
+current_tag=$(git -C $nmde_path describe --tags $(git -C $nmde_path rev-list --tags --max-count=1))
+
+if [[ "$current_tag" != "$latest_tag" ]]; then
+  echo "nmde update available ($latest_tag)"
+  exit 0
+else
+  echo "nmde is up to date ($current_tag)"
+  exit 1
+fi

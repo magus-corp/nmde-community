@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    restart: always
+    ports:
+      - 192.168.3.122:5678:5678
+    env_file:
+      - ./env_files/n8n.env
+#    environment: # GENERIC_TIMEZONE can be set in the .env file or passed from shell
+#      - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
+#    volumes:
+#      - ./n8n_data:/home/node/.n8n
+networks: {}

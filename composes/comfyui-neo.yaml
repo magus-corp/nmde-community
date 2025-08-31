@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  comfyui-docker:
+    container_name: comfy-webui-docker
+    #build: # uncomment if building
+    #  context: .
+    #  dockerfile: Dockerfile
+    image: ghcr.io/cyntachs/comfy-webui-docker:main
+    ports:
+      - 9897:5555
+    volumes:
+      - /home/magus/comfy:/stable-diffusion
+    env_file:
+      - ./env_files/comfyui-neo.env
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0']
+              capabilities: [compute, utility]

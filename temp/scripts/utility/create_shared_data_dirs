@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# This script creates the necessary data directories under composes/data_shared/
+# for the shared services defined in composes/shared-services.yaml.
+
+# Ensure the script is run from the root of the project,
+# or adjust paths accordingly if run from elsewhere.
+
+BASE_DIR="composes/data_shared"
+
+DIRECTORIES=(
+    "shared-redis_data"
+    "shared-postgres-15_data"
+    "shared-postgres-14_data"
+    "shared-mongodb_data"
+    "shared-postgres-pgvector_data" # Renamed from librechat_pgvector_data
+)
+
+echo "Creating shared data directories under $BASE_DIR..."
+
+for dir in "${DIRECTORIES[@]}"; do
+    mkdir -p "$BASE_DIR/$dir"
+    if [ $? -eq 0 ]; then
+        echo "Successfully created or ensured $BASE_DIR/$dir exists."
+    else
+        echo "Failed to create $BASE_DIR/$dir." >&2
+    fi
+done
+
+echo "Directory creation process complete."

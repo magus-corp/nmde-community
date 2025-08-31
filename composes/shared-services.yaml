@@ -1,0 +1,89 @@
+version: "3.8"
+
+networks:
+  shared_services_network:
+    driver: bridge
+    name: shared_services_network
+
+services:
+  shared-redis:
+    image: redis:latest
+    container_name: shared-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379" # Default Redis port
+    volumes:
+      - ./shared_redis_data:/data
+    networks:
+      - shared_services_network
+    # Example command with password, if needed:
+    # command: redis-server --requirepass yoursecurepassword
+    # Remember to update dependent services' configurations if you set a password.
+
+  shared-postgres-15:
+    image: postgres:15-alpine
+    container_name: shared-postgres-15
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_DB: cvat
+      POSTGRES_HOST_AUTH_METHOD: trust # Required by CVAT
+    volumes:
+      - shared_postgres_15_data:/var/lib/postgresql/data
+    networks:
+      - shared_services_network
+
+  shared-postgres-14:
+    image: postgres:14-alpine
+    container_name: shared-postgres-14
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: typebot # Assuming user 'typebot'
+      POSTGRES_PASSWORD: typebot
+      POSTGRES_DB: typebot
+    volumes:
+      - shared_postgres_14_data:/var/lib/postgresql/data
+    networks:
+      - shared_services_network
+
+  shared-mongodb:
+    image: mongo:latest
+    container_name: shared-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: magus
+      MONGO_INITDB_ROOT_PASSWORD: senhamagus123!
+    volumes:
+      - shared_mongodb_data:/data/db
+    networks:
+      - shared_services_network
+
+  shared-postgres-pgvector: # Renamed from librechat-pgvector
+    image: ankane/pgvector:latest
+    container_name: shared-postgres-pgvector
+    environment:
+      POSTGRES_DB: mydatabase # General purpose DB name
+      POSTGRES_USER: myuser     # General purpose user
+      POSTGRES_PASSWORD: mypassword # General purpose password - CHANGE IN PRODUCTION
+    restart: always
+    ports:
+      - "5433:5432" # Changed to a more generic port, avoiding conflict with 5432
+    volumes:
+      - shared_postgres_pgvector_data:/var/lib/postgresql/data # Renamed volume
+    networks:
+      - shared_services_network
+
+volumes:
+  shared_redis_data:
+    driver: local
+  shared_postgres_15_data:
+    driver: local
+  # shared_postgres_latest_data volume removed
+  shared_postgres_14_data:
+    driver: local
+  shared_mongodb_data:
+    driver: local
+  shared_postgres_pgvector_data: # Renamed volume for pgvector instance
+    driver: local

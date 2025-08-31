@@ -1,0 +1,8 @@
+#!/bin/bash
+
+mkdir $HOME/.magustui
+cd $HOME/.magustui
+# uv init
+uv venv
+source .venv/bin/activate
+uv pip install git+ssh://git@github.com/magus-corp/magustui.git

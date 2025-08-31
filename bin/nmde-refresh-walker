@@ -1,0 +1,6 @@
+#!/bin/bash
+
+nmde-refresh-config walker/config.toml
+
+pkill walker
+setsid uwsm app -- walker --gapplication-service &

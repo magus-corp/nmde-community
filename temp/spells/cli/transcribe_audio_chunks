@@ -1,0 +1,93 @@
+#!/usr/bin/env python3
+import os
+import sys
+
+# --- Venv Self-Execution ---
+VENV_PYTHON = os.path.expanduser("~/.magustui/.venv/bin/python")
+if sys.executable != VENV_PYTHON:
+    if os.path.exists(VENV_PYTHON):
+        os.execv(VENV_PYTHON, [VENV_PYTHON] + sys.argv)
+    else:
+        print(f"Error: MagusTUI virtual environment not found at {VENV_PYTHON}", file=sys.stderr)
+        sys.exit(1)
+# --- End Venv Self-Execution ---
+
+import requests
+import argparse
+from rich.console import Console
+from rich.progress import Progress
+from rich.theme import Theme
+
+def transcribe_audio_chunks(audio_dir):
+    """
+    A spell of transcription for fragmented audio essences.
+    This incantation will seek out all .mp3 files in a directory, transcribe them
+    using a remote API, and then bind the resulting texts into a single, cohesive scroll.
+    """
+    custom_theme = Theme({
+        "info": "bold cyan",
+        "warning": "bold yellow",
+        "error": "bold red",
+        "success": "bold green",
+        "path": "blue"
+    })
+    console = Console(theme=custom_theme)
+
+    if not os.path.isdir(audio_dir):
+        console.print(f"Error: '{audio_dir}' is not a directory.", style="error")
+        return
+
+    trans_dir = os.path.join(audio_dir, "transcripts")
+    os.makedirs(trans_dir, exist_ok=True)
+
+    concat_path = os.path.join(audio_dir, "full_transcript.txt")
+    with open(concat_path, "w") as concat_file:
+        pass  # Create/clear the file
+
+    mp3_files = sorted([f for f in os.listdir(audio_dir) if f.lower().startswith("part") and f.lower().endswith(".mp3")])
+
+    if not mp3_files:
+        console.print("No audio chunks found in the directory.", style="warning")
+        return
+
+    with Progress() as progress:
+        task = progress.add_task("[info]Transcribing audio chunks...", total=len(mp3_files))
+
+        for filename in mp3_files:
+            audio_path = os.path.join(audio_dir, filename)
+            base, _ = os.path.splitext(filename)
+            out_path = os.path.join(trans_dir, f"{base}.txt")
+
+            progress.console.print(f"Transcribing [path]{audio_path}[/path] to [path]{out_path}[/path]", style="info")
+
+            with open(audio_path, "rb") as f:
+                files = {"audio_file": (filename, f, "audio/mpeg")}
+                try:
+                    response = requests.post(
+                        "http://192.168.3.122:9000/asr?encode=true&task=transcribe&language=pt&vad_filter=false&word_timestamps=false&output=txt",
+                        files=files,
+                        headers={"accept": "application/json"}
+                    )
+                    response.raise_for_status()
+
+                    with open(out_path, "w") as out_f:
+                        out_f.write(response.text)
+
+                    with open(concat_path, "a") as concat_file:
+                        concat_file.write(f"===== {base} =====\n")
+                        concat_file.write(response.text)
+                        concat_file.write("\n\n")
+
+                    progress.update(task, advance=1, description=f"[info]Transcribed [path]{filename}[/path]")
+                except requests.exceptions.RequestException as e:
+                    progress.console.print(f"Error transcribing {filename}: {e}", style="error")
+
+    console.print("Done.", style="success")
+    console.print(f"Individual transcripts: [path]{trans_dir}/[/path]", style="success")
+    console.print(f"Concatenated transcript: [path]{concat_path}[/path]", style="success")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Transcribes audio chunks and concatenates the results.")
+    parser.add_argument("audio_dir", help="The directory containing the audio files.")
+    args = parser.parse_args()
+    transcribe_audio_chunks(args.audio_dir)

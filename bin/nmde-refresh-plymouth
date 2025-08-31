@@ -1,0 +1,6 @@
+#!/bin/bash
+
+if [[ "$1" == "-y" ]] || gum confirm "Refresh Plymouth theme? This will replace your current startup screen with nmde defaults."; then
+  sudo cp ~/.local/share/nmde/default/plymouth/* /usr/share/plymouth/themes/nmde/
+  sudo plymouth-set-default-theme -R nmde
+fi

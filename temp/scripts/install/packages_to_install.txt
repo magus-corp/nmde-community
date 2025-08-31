@@ -1,0 +1,123 @@
+# Core & System
+base-devel
+linux-headers
+git
+sudo
+procps-ng
+gawk
+diffutils
+findutils
+tar
+gzip
+bzip2
+xz-utils
+curl
+wget
+rsync
+openssh
+pkgconf
+which
+psmisc
+iproute2
+pciutils
+lshw
+usbutils
+util-linux
+man-db
+man-pages
+less
+dbus
+ranger
+
+# Desktop Environment (DWM and Xorg)
+xorg-server
+xorg-xinit
+xorg-xrandr
+xorg-xrdb
+xorg-xset
+xorg-xbacklight
+xf86-input-libinput
+xf86-input-synaptics
+xf86-input-wacom
+libxft
+libxinerama
+fontconfig
+noto-fonts
+noto-fonts-emoji
+ttf-hack-nerd
+ttf-nerd-fonts-symbols
+dmenu
+rofi
+terminator
+qutebrowser
+nitrogen
+picom
+slock
+
+# Audio
+pipewire
+pipewire-alsa
+pipewire-pulse
+wireplumber
+pamixer
+pulsemixer
+alsa-utils
+mpd
+mpc
+ncmpcpp
+
+# Development & CLI Tools
+neovim
+python
+python-pip
+python-venv
+bc
+fzf
+highlight
+tmux
+htop
+bottom
+gdu
+ripgrep
+lazygit
+tree-sitter-cli
+xdotool
+terraform
+docker
+docker-compose
+kubernetes-tools
+# python-poetry
+# stow
+# asdf-vm # AUR
+google-cloud-sdk # AUR
+
+# Applications
+lf
+nsxiv # AUR
+zathura
+zathura-pdf-poppler
+mpv
+ffmpeg
+yt-dlp
+neomutt
+isync
+newsboat
+screenkey
+maim
+wakeonlan
+transmission-cli
+groff
+youtube-viewer # AUR
+arandr
+pavucontrol
+blueman
+bluez
+bluez-utils
+
+# Shell (Zsh)
+zsh
+zsh-completions
+zsh-syntax-highlighting
+zsh-autosuggestions
+# uv # We will install this manually
+litellmproxmox-backup-client # AUR

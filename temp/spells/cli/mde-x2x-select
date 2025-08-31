@@ -1,0 +1,62 @@
+#!/usr/bin/env python3
+import os
+import subprocess
+import sys
+
+CONFIG_FILE = os.path.expanduser("~/.config/mde/apps/dwm/x2x_targets")
+ATOM_NAME = "_X2X_SELECT_TARGET"
+
+def get_directions():
+    """Reads the config file and returns a list of direction names."""
+    if not os.path.exists(CONFIG_FILE):
+        return []
+    directions = []
+    with open(CONFIG_FILE, "r") as f:
+        for line in f:
+            parts = line.strip().split()
+            if parts:
+                directions.append(parts[0])
+    return directions
+
+def dmenu_select(prompt, options):
+    """Shows a dmenu prompt and returns the selected option."""
+    if not options:
+        return None
+    try:
+        options_str = "\n".join(options)
+        p = subprocess.Popen(["dmenu", "-p", prompt], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+        stdout, _ = p.communicate(input=options_str.encode())
+        return stdout.decode().strip()
+    except FileNotFoundError:
+        print("dmenu not found. Please install it.", file=sys.stderr)
+        sys.exit(1)
+
+def set_x_atom(name, value):
+    """Sets a string property on the root window."""
+    try:
+        subprocess.run(["xprop", "-root", "-format", name, "8s", "-set", name, value], check=True)
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        print("Could not set X property. Is xprop installed?", file=sys.stderr)
+        sys.exit(1)
+
+def signal_dwm():
+    """Sends SIGUSR2 to the dwm process."""
+    try:
+        subprocess.run(["pkill", "-USR2", "dwm"], check=True)
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        print("Could not signal dwm. Is it running?", file=sys.stderr)
+
+def main():
+    directions = get_directions()
+    if not directions:
+        print("No x2x targets configured.", file=sys.stderr)
+        sys.exit(1)
+
+    choice = dmenu_select("Select x2x Target:", directions)
+
+    if choice:
+        set_x_atom(ATOM_NAME, choice)
+        signal_dwm()
+
+if __name__ == "__main__":
+    main()

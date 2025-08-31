@@ -1,0 +1,38 @@
+#!/bin/bash
+#
+# Converts a Matroska video file (MKV) to an MP4 container without re-encoding.
+#
+# This script performs a direct stream copy, which is fast and preserves
+# the original video and audio quality. It only changes the container format.
+#
+# Usage: mkv_to_mp4 <input_file.mkv>
+# Example: mkv_to_mp4 "my-video.mkv"
+
+set -euo pipefail
+
+if [ -z "$1" ]; then
+  echo "Usage: mkv_to_mp4 <input_file.mkv>"
+  exit 1
+fi
+
+INPUT_FILE="$1"
+OUTPUT_FILE="${1%.*}.mp4"
+
+if [ ! -f "$INPUT_FILE" ]; then
+    echo "Error: Input file not found at '$INPUT_FILE'"
+    exit 1
+fi
+
+if ! command -v ffmpeg &> /dev/null; then
+    echo "Error: ffmpeg is not installed. Please install it to use this script."
+    exit 1
+fi
+
+echo "Converting '$INPUT_FILE' to '$OUTPUT_FILE'..."
+# -map 0: Selects all streams from the first input file.
+# -c copy: Copies all streams without re-encoding.
+# -c:a aac: Re-encodes only the audio to AAC, which is more compatible with MP4.
+#            This is often necessary if the source audio format is not MP4-friendly.
+ffmpeg -i "$INPUT_FILE" -map 0 -c copy -c:a aac "$OUTPUT_FILE"
+
+echo "Conversion complete."

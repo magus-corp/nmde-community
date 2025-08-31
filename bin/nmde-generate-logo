@@ -1,0 +1,29 @@
+#!/bin/zsh
+
+# The nmde project is always installed to this location.
+NMDE_ROOT="$HOME/.local/share/nmde"
+
+# Define file paths
+LOGO_TXT="$NMDE_ROOT/logo.txt"
+OUTPUT_DIR="$NMDE_ROOT/default/plymouth"
+OUTPUT_FILE="$OUTPUT_DIR/logo.png"
+
+# Check if logo.txt exists
+if [ ! -f "$LOGO_TXT" ]; then
+  echo "Error: logo.txt not found at $LOGO_TXT"
+  exit 1
+fi
+
+# Create output directory if it doesn't exist
+mkdir -p "$OUTPUT_DIR"
+
+# Generate the logo using ImageMagick
+echo "Generating logo.png from logo.txt..."
+cat "$LOGO_TXT" | magick -background none -fill white -font "CaskaydiaMono-NF-Regular" -pointsize 14 label:@- "$OUTPUT_FILE"
+
+if [ $? -eq 0 ]; then
+  echo "Successfully created logo.png at $OUTPUT_FILE"
+else
+  echo "Error: Failed to generate logo."
+  echo "Please ensure ImageMagick and the CaskaydiaMono Nerd Font are installed."
+fi

@@ -1,0 +1,119 @@
+#!/usr/bin/env python3
+import os
+import sys
+
+# --- Venv Self-Execution ---
+VENV_PYTHON = os.path.expanduser("~/.magustui/.venv/bin/python")
+if sys.executable != VENV_PYTHON:
+    if os.path.exists(VENV_PYTHON):
+        os.execv(VENV_PYTHON, [VENV_PYTHON] + sys.argv)
+    else:
+        print(f"Error: MagusTUI virtual environment not found at {VENV_PYTHON}", file=sys.stderr)
+        sys.exit(1)
+# --- End Venv Self-Execution ---
+
+import platform
+import subprocess
+from rich.console import Console
+from rich.theme import Theme
+from rich.live import Live
+from rich.table import Table
+from pynput import keyboard
+
+def get_files(path):
+    return [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
+
+def copy_to_clipboard(text):
+    copy_command = ""
+    if platform.system() == "Darwin":
+        copy_command = "pbcopy"
+    else:
+        session_type = os.environ.get("XDG_SESSION_TYPE", "").lower()
+        if "wayland" in session_type:
+            copy_command = "wl-copy"
+        else:
+            copy_command = "xclip -selection clipboard"
+    
+    if copy_command:
+        process = subprocess.Popen(copy_command.split(), stdin=subprocess.PIPE)
+        process.communicate(input=text.encode())
+
+def generate_table(files, selected_index, selected_files) -> Table:
+    table = Table(show_header=False, box=None)
+    table.add_column("selected")
+    table.add_column("name")
+
+    for i, f in enumerate(files):
+        selected_char = "[green]✓[/green]" if f in selected_files else "[dim]o[/dim]"
+        style = "on blue" if i == selected_index else ""
+        table.add_row(selected_char, f, style=style)
+    return table
+
+def main():
+    """
+    A spell of amalgamation, to bind the essence of many scrolls into one.
+    This incantation allows the Magus to select multiple files, and their contents
+    will be mystically woven together and copied to the clipboard.
+    """
+    custom_theme = Theme({
+        "info": "bold cyan",
+        "success": "bold green",
+        "path": "blue"
+    })
+    console = Console(theme=custom_theme)
+    
+    path = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()
+    files = get_files(path)
+    
+    if not files:
+        console.print("[info]No files in the current directory.[/info]")
+        return
+
+    selected_index = 0
+    selected_files = set()
+
+    with Live(generate_table(files, selected_index, selected_files), screen=True, redirect_stderr=False) as live:
+        def on_press(key):
+            nonlocal selected_index, selected_files
+            try:
+                if key == keyboard.Key.up:
+                    selected_index = (selected_index - 1) % len(files)
+                elif key == keyboard.Key.down:
+                    selected_index = (selected_index + 1) % len(files)
+                elif key == keyboard.Key.space:
+                    filename = files[selected_index]
+                    if filename in selected_files:
+                        selected_files.remove(filename)
+                    else:
+                        selected_files.add(filename)
+                elif key == keyboard.Key.enter:
+                    return False # Stop listener
+                live.update(generate_table(files, selected_index, selected_files))
+            except Exception:
+                return False
+
+        with keyboard.Listener(on_press=on_press) as listener:
+            listener.join()
+
+    if not selected_files:
+        console.print("[info]No files selected.[/info]")
+        return
+
+    console.print("\n[info]Selected files:[/info]")
+    for f in selected_files:
+        console.print(f"  - [path]{f}[/path]")
+
+    result = ""
+    for file in selected_files:
+        try:
+            with open(os.path.join(path, file), "r", encoding='utf-8') as f_content:
+                result += f"```{file}\n{f_content.read()}\n```\n\n"
+        except UnicodeDecodeError:
+            console.print(f"[warning]Could not read {file}, skipping.[/warning]")
+
+
+    copy_to_clipboard(result)
+    console.print("\n[success]File contents copied to clipboard.[/success]")
+
+if __name__ == "__main__":
+    main()

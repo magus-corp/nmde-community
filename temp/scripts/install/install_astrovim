@@ -1,0 +1,12 @@
+#!/bin/bash
+sudo pacman -Sy ttf-hack-nerd ttf-nerd-fonts-symbols tree-sitter-cli ripgrep lazygit gdu bottom
+# make backups
+mv ~/.config/nvim ~/.config/nvim.bak
+mv ~/.local/share/nvim ~/.local/share/nvim.bak
+mv ~/.local/state/nvim ~/.local/state/nvim.bak
+mv ~/.cache/nvim ~/.cache/nvim.bak
+# install
+git clone --depth 1 https://github.com/AstroNvim/template ~/.config/nvim
+# remove template's git connection to set up your own later
+rm -rf ~/.config/nvim/.git
+#nvim

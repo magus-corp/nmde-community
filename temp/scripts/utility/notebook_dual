@@ -1,0 +1,13 @@
+#!/bin/sh
+# This script configures a dual-monitor setup for a notebook, including a virtual display.
+
+# Add a new mode for the VIRTUAL1 output
+xrandr --addmode VIRTUAL1 1920x1080
+
+# Configure the displays:
+# LVDS1 (internal) as primary, 1366x768 at 0x0, normal rotation.
+# VGA1 (external) at 1920x1080, positioned at 768x346, normal rotation.
+# VIRTUAL1 (virtual) at 1920x1080, positioned at 2688x346, normal rotation.
+xrandr --output LVDS1 --primary --mode 1366x768 --pos 0x0 --rotate normal \
+  --output VGA1 --mode 1920x1080 --pos 768x346 --rotate normal \
+  --output VIRTUAL1 --mode 1920x1080 --pos 2688x346 --rotate normal

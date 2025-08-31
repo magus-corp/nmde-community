@@ -1,0 +1,75 @@
+#!/usr/bin/env python3
+import os
+import sys
+
+# --- Venv Self-Execution ---
+VENV_PYTHON = os.path.expanduser("~/.magustui/.venv/bin/python")
+if sys.executable != VENV_PYTHON:
+    if os.path.exists(VENV_PYTHON):
+        os.execv(VENV_PYTHON, [VENV_PYTHON] + sys.argv)
+    else:
+        print(f"Error: MagusTUI virtual environment not found at {VENV_PYTHON}", file=sys.stderr)
+        sys.exit(1)
+# --- End Venv Self-Execution ---
+
+import subprocess
+import argparse
+from rich.console import Console
+from rich.theme import Theme
+
+def run_command(command, console, cwd=None):
+    """Runs a command and handles errors."""
+    try:
+        process = subprocess.run(
+            command,
+            check=True,
+            capture_output=True,
+            text=True,
+            cwd=cwd,
+        )
+        return process.stdout.strip()
+    except subprocess.CalledProcessError as e:
+        console.print(f"Error running command: {' '.join(command)}", style="error")
+        console.print(e.stderr, style="error")
+        sys.exit(1)
+    except FileNotFoundError:
+        console.print(f"Command not found: {command[0]}", style="error")
+        sys.exit(1)
+
+def main():
+    """
+    A powerful spell of unmaking, returning the conjured infrastructure to the aether.
+    This incantation will dismantle the GKE cluster and all its associated resources,
+    leaving no trace of their existence.
+    """
+    custom_theme = Theme({
+        "info": "bold cyan",
+        "warning": "bold yellow",
+        "error": "bold red",
+        "success": "bold green",
+        "path": "blue"
+    })
+    console = Console(theme=custom_theme)
+
+    parser = argparse.ArgumentParser(description="Destroy Terraform-managed infrastructure.")
+    parser.add_argument("path", nargs="?", default=os.getcwd(), help="Path to the Terraform project (defaults to current directory).")
+    args = parser.parse_args()
+
+    path = args.path
+
+    console.print(f"Working in directory: [path]{path}[/path]", style="info")
+
+    console.print("Planning Terraform destroy operation...", style="info")
+    run_command(["terraform", "plan", "-destroy", "-out=tfdestroy"], console, cwd=path)
+
+    console.print("Destroying GKE cluster and associated resources...", style="info")
+    run_command(["terraform", "apply", "-input=false", "tfdestroy"], console, cwd=path)
+
+    destroy_plan_file = os.path.join(path, "tfdestroy")
+    if os.path.exists(destroy_plan_file):
+        os.remove(destroy_plan_file)
+
+    console.print("GKE cluster successfully destroyed.", style="success")
+
+if __name__ == "__main__":
+    main()

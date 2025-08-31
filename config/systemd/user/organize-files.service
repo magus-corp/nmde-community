@@ -1,0 +1,6 @@
+[Unit]
+Description=Run the file organizer script
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/share/nmde/bin/organize_files

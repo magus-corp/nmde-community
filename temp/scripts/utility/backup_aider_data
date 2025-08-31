@@ -1,0 +1,90 @@
+#!/bin/bash
+
+# Script to recursively copy .aider specific files and folders
+# into a timestamped backup directory under $HOME/backups.
+# The copied items will be placed in subdirectories named after their
+# original parent folder.
+
+# --- Configuration ---
+AIDER_FILES_TO_COPY=(".aider.chat.history.md" ".aider.input.history")
+AIDER_DIRS_TO_COPY=(".aider.tags.cache.v4")
+BACKUP_BASE_DIR="$HOME/backups"
+
+# --- Argument Validation ---
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <path_to_search>"
+    echo "Example: $0 /path/to/your/projects"
+    exit 1
+fi
+
+SEARCH_PATH_ARG="$1"
+
+# Resolve to absolute path to handle relative input paths robustly
+# and ensure dirname/basename work as expected later.
+SEARCH_PATH=$(readlink -f "$SEARCH_PATH_ARG") 
+
+if [ ! -d "$SEARCH_PATH" ]; then
+    echo "Error: Source path '$SEARCH_PATH_ARG' (resolved to '$SEARCH_PATH') not found or not a directory."
+    exit 1
+fi
+
+# --- Prepare Backup Directory ---
+TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+BACKUP_DIR_NAME="aiderbk_$TIMESTAMP"
+FULL_BACKUP_PATH="$BACKUP_BASE_DIR/$BACKUP_DIR_NAME"
+
+# Create the base backup directory if it doesn't exist
+mkdir -p "$BACKUP_BASE_DIR"
+if [ $? -ne 0 ]; then
+    echo "Error: Could not create base backup directory '$BACKUP_BASE_DIR'."
+    exit 1
+fi
+
+# Create the specific timestamped backup directory
+mkdir -p "$FULL_BACKUP_PATH"
+if [ $? -ne 0 ]; then
+    echo "Error: Could not create timestamped backup directory '$FULL_BACKUP_PATH'."
+    exit 1
+fi
+echo "Backup started. Target directory: $FULL_BACKUP_PATH"
+
+# --- Process Files ---
+echo "Searching for files to back up in '$SEARCH_PATH'..."
+for file_name in "${AIDER_FILES_TO_COPY[@]}"; do
+    find "$SEARCH_PATH" -type f -name "$file_name" -print0 | while IFS= read -r -d $'\0' found_file; do
+        origin_parent_dir_path=$(dirname "$found_file")
+        origin_parent_dir_name=$(basename "$origin_parent_dir_path")
+        
+        target_dest_sub_dir="$FULL_BACKUP_PATH/$origin_parent_dir_name"
+        
+        mkdir -p "$target_dest_sub_dir"
+        if cp "$found_file" "$target_dest_sub_dir/"; then
+            echo "Copied file: $found_file -> $target_dest_sub_dir/$(basename "$found_file")"
+        else
+            echo "Warning: Failed to copy file '$found_file' to '$target_dest_sub_dir/'"
+        fi
+    done
+done
+
+# --- Process Directories ---
+echo "Searching for directories to back up in '$SEARCH_PATH'..."
+for dir_name in "${AIDER_DIRS_TO_COPY[@]}"; do
+    # -prune ensures that once a directory named $dir_name is found, find does not descend into it.
+    find "$SEARCH_PATH" -type d -name "$dir_name" -prune -print0 | while IFS= read -r -d $'\0' found_dir; do
+        origin_parent_dir_path=$(dirname "$found_dir")
+        origin_parent_dir_name=$(basename "$origin_parent_dir_path")
+        
+        target_dest_sub_dir="$FULL_BACKUP_PATH/$origin_parent_dir_name"
+
+        mkdir -p "$target_dest_sub_dir"
+        # Copy the directory itself (e.g., .aider.tags.cache.v4) into target_dest_sub_dir
+        if cp -r "$found_dir" "$target_dest_sub_dir/"; then
+            echo "Copied directory: $found_dir -> $target_dest_sub_dir/$(basename "$found_dir")"
+        else
+            echo "Warning: Failed to copy directory '$found_dir' to '$target_dest_sub_dir/'"
+        fi
+    done
+done
+
+echo "Backup process completed."
+echo "Backed up files and directories are in: $FULL_BACKUP_PATH"

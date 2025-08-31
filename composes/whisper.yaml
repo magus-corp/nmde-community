@@ -1,0 +1,20 @@
+version: "3.3"
+services:
+  openai-whisper-asr-webservice:
+    restart: always
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities:
+                - gpu
+    ports:
+      - 9000:9000
+    env_file:
+      - ./env_files/whisper.env
+    image: onerahmet/openai-whisper-asr-webservice:latest-gpu
+    volumes:
+      - ./whisper_models:/root/.cache/whisper
+networks: {}

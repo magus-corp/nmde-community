@@ -1,0 +1,36 @@
+version: '3.3'
+
+volumes:
+  # typebot-db volume removed, data will be managed by shared-postgres-14 in shared-services.yaml
+
+services:
+  # typebot-db service definition removed, moved to shared-services.yaml as shared-postgres-14
+
+  typebot-builder:
+    image: maguscorp/typebot-builder:latest
+    restart: always
+    # depends_on: typebot-db removed, shared-postgres-14 is external
+    ports:
+      - '8082:3000'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    env_file: ./env_files/typebot.env
+    networks:
+      - default
+      - shared_services_network
+
+  typebot-viewer:
+    image: maguscorp/typebot-viewer:latest
+    restart: always
+    ports:
+      - '8081:3000'
+    env_file: ./env_files/typebot.env
+    networks:
+      - default
+      - shared_services_network
+ # Commented-out Ollama service removed.
+
+networks:
+  default:
+  shared_services_network:
+    external: true

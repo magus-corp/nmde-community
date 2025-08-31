@@ -1,0 +1,26 @@
+version: '3.3'
+services:
+ ollama:
+   image: ollama/ollama
+   deploy:
+     resources:
+       reservations:
+         devices:
+         - driver: nvidia
+           count: all
+           capabilities: [gpu]
+   volumes:
+     - /root/.ollama:/root/.ollama
+   ports:
+     - 192.168.15.2:11434:11434
+   env_file:
+     - ./env_files/ollama.env
+   restart: unless-stopped
+   networks:
+     - default
+     - shared_services_network
+
+networks:
+  default:
+  shared_services_network:
+    external: true

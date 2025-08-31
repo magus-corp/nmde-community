@@ -1,0 +1,28 @@
+echo "Installing paru (AUR helper)..."
+# Ensure base-devel and git are installed, which are common prerequisites for building AUR packages
+sudo pacman -S --needed base-devel git --noconfirm
+
+# Create a temporary directory for cloning and building paru
+TEMP_PARU_DIR=$(mktemp -d)
+echo "Cloning paru-bin to $TEMP_PARU_DIR..."
+git clone https://aur.archlinux.org/paru-bin.git "$TEMP_PARU_DIR"
+
+# Change to the paru directory and build/install it
+echo "Building and installing paru..."
+(cd "$TEMP_PARU_DIR" && makepkg -si --noconfirm)
+
+# Clean up the temporary directory
+echo "Cleaning up paru installation files..."
+rm -rf "$TEMP_PARU_DIR"
+echo "paru installation complete."
+
+echo "Installing dependencies with paru..."
+# Read packages from the file, remove empty lines and comments, then pass to paru
+PACKAGES_FILE="$HOME/.config/mde/scripts/install/packages_to_install.txt"
+if [ -f "$PACKAGES_FILE" ]; then
+    # shellcheck disable=SC2046
+    paru -Sy --noconfirm $(grep -v '^#' "$PACKAGES_FILE" | grep -v '^$' | tr '\n' ' ')
+else
+    echo "ERROR: Package list file not found at $PACKAGES_FILE" >&2
+    exit 1
+fi

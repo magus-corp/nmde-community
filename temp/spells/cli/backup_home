@@ -1,0 +1,100 @@
+#!/usr/bin/env python3
+import os
+import sys
+import argparse
+import subprocess
+from datetime import datetime
+from rich.console import Console
+from rich.panel import Panel
+from rich.theme import Theme
+
+# --- Venv Self-Execution ---
+VENV_PYTHON = os.path.expanduser("~/.magustui/.venv/bin/python")
+if sys.executable != VENV_PYTHON:
+    if os.path.exists(VENV_PYTHON):
+        os.execv(VENV_PYTHON, [VENV_PYTHON] + sys.argv)
+    else:
+        print(f"Error: MagusTUI virtual environment not found at {VENV_PYTHON}", file=sys.stderr)
+        sys.exit(1)
+# --- End Venv Self-Execution ---
+
+def main():
+    """
+    A powerful spell to safeguard your digital sanctum.
+    This incantation will meticulously back up your home directory,
+    preserving your projects, documents, and configurations while
+    respectfully ignoring transient and unworthy files.
+    """
+    custom_theme = Theme({
+        "info": "bold cyan",
+        "success": "bold green",
+        "warning": "bold yellow",
+        "error": "bold red",
+        "path": "blue"
+    })
+    console = Console(theme=custom_theme)
+
+    parser = argparse.ArgumentParser(description="Backs up the home directory using rsync.")
+    parser.add_argument("backup_name", help="The name for the backup folder.")
+    args = parser.parse_args()
+
+    home_dir = os.path.expanduser("~")
+    backup_dest_base = "/mnt/home/magus"
+    backup_dest = os.path.join(backup_dest_base, args.backup_name)
+
+    if not os.path.isdir(backup_dest_base):
+        console.print(f"Error: Backup destination base '{backup_dest_base}' does not exist.", style="error")
+        sys.exit(1)
+
+    console.print(Panel(f"Preparing to back up '[path]{home_dir}[/path]' to '[path]{backup_dest}[/path]'...", style="info"))
+
+    exclude_list = [
+        # Exclude the backup destination itself
+        f"{backup_dest_base}/*",
+        # Common cache and temp directories
+        ".cache",
+        ".local/share/Trash",
+        # Development-related
+        "node_modules",
+        "__pycache__",
+        ".venv",
+        ".tox",
+        ".pytest_cache",
+        ".mypy_cache",
+        # Application-specific
+        ".arduino*",
+        "Arduino",
+        "snap",
+        "Steam",
+        "steam",
+        ".steam",
+        ".var/app/com.valvesoftware.Steam",
+        # Other
+        "Downloads/torrents",
+        "*.tmp",
+        "*.log",
+        "*.swp",
+    ]
+
+    rsync_command = [
+        "rsync",
+        "-av",
+        "--progress",
+        home_dir + '/',
+        backup_dest,
+    ]
+
+    for item in exclude_list:
+        rsync_command.insert(2, f"--exclude={item}")
+
+    try:
+        console.print("Starting rsync...", style="info")
+        subprocess.run(rsync_command, check=True)
+        console.print(Panel(f"Backup complete! Your home directory has been safely stored at '[path]{backup_dest}[/path]'.", style="success"))
+    except subprocess.CalledProcessError as e:
+        console.print(f"Error during rsync execution: {e}", style="error")
+    except FileNotFoundError:
+        console.print("Error: 'rsync' command not found. Please ensure it is installed.", style="error")
+
+if __name__ == "__main__":
+    main()

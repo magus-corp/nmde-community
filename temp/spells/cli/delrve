@@ -1,0 +1,65 @@
+#!/usr/bin/env python3
+import os
+import sys
+
+# --- Venv Self-Execution ---
+VENV_PYTHON = os.path.expanduser("~/.magustui/.venv/bin/python")
+if sys.executable != VENV_PYTHON:
+    if os.path.exists(VENV_PYTHON):
+        os.execv(VENV_PYTHON, [VENV_PYTHON] + sys.argv)
+    else:
+        print(f"Error: MagusTUI virtual environment not found at {VENV_PYTHON}", file=sys.stderr)
+        sys.exit(1)
+# --- End Venv Self-Execution ---
+
+import argparse
+import shutil
+from rich.console import Console
+from rich.panel import Panel
+from rich.theme import Theme
+
+def main():
+    """
+    A powerful banishment spell to eradicate the pocket dimensions of Python.
+    This incantation will seek out and destroy all '.venv' directories,
+    freeing your projects from their isolated realities.
+    """
+    custom_theme = Theme({
+        "info": "bold cyan",
+        "success": "bold green",
+        "warning": "bold yellow",
+        "error": "bold red",
+        "path": "blue"
+    })
+    console = Console(theme=custom_theme)
+
+    parser = argparse.ArgumentParser(description="Recursively deletes .venv directories.")
+    parser.add_argument("path", nargs="?", default=".", help="The directory to search from (defaults to current directory).")
+    args = parser.parse_args()
+
+    search_path = os.path.abspath(args.path)
+
+    if not os.path.isdir(search_path):
+        console.print(f"Error: '{search_path}' is not a valid directory.", style="error")
+        return
+
+    console.print(Panel(f"Searching for '.venv' directories under '[path]{search_path}[/path]'...", style="info"))
+
+    found_any = False
+    for root, dirs, _ in os.walk(search_path):
+        if ".venv" in dirs:
+            dir_to_delete = os.path.join(root, ".venv")
+            console.print(f"Deleting: [path]{dir_to_delete}[/path]", style="warning")
+            try:
+                shutil.rmtree(dir_to_delete)
+                found_any = True
+            except OSError as e:
+                console.print(f"Error deleting directory: {e}", style="error")
+
+    if not found_any:
+        console.print("No .venv directories found.", style="info")
+    else:
+        console.print(Panel("Deletion of .venv directories complete.", style="success"))
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=nmde
+Comment=nmde TUI
+Exec=alacritty --class=nmde --title=nmde -e bash -c '$HOME/.local/share/nmde/bin/nmde'
+Icon=Arch
+Terminal=false
+Categories=System;Utility;
+StartupNotify=false 

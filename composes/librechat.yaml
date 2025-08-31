@@ -1,0 +1,66 @@
+services:
+  api:
+    container_name: LibreChat
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - rag_api # mongodb is now external
+    image: ghcr.io/danny-avila/librechat-dev:latest
+    restart: always
+    user: ${UID}:${GID}
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    env_file:
+      - ./env_files/librechat.env
+    # Environment variables like HOST, PORT, MONGO_URI, MEILI_HOST, RAG_PORT, RAG_API_URL
+    # are expected to be in librechat.env
+    # User-specific UID/GID can also be in librechat.env or set in shell
+    environment:
+      - UID=${UID:-1000} # Example if UID/GID are not in .env but needed
+      - GID=${GID:-1000} # Example if UID/GID are not in .env but needed
+    volumes:
+      - type: bind
+        source: ./.env
+        target: /app/.env
+      - ./images:/app/client/public/images
+      - ./logs:/app/api/logs
+      - type: bind
+        source: ./librechat.yaml
+        target: /app/librechat.yaml
+    networks: # Added network
+      - default
+      - shared_services_network
+  meilisearch:
+    container_name: chat-meilisearch
+    image: getmeili/meilisearch:v1.7.3
+    restart: always
+    user: ${UID}:${GID}
+    env_file:
+      - ./env_files/librechat.env
+    # MEILI_HOST and MEILI_NO_ANALYTICS are expected to be in librechat.env
+    # environment:
+    #   - MEILI_HOST=http://meilisearch:7700 # This is often service internal, but can be in .env
+    volumes:
+      - ./meili_data_v1.7:/meili_data
+    networks: # Added network
+      - default
+      - shared_services_network
+  rag_api:
+    container_name: rag_api
+    image: ghcr.io/danny-avila/librechat-rag-api-dev-lite:latest
+    env_file:
+      - ./env_files/librechat.env # Primary env file
+      - .env # Fallback or additional local .env if used by original setup
+    # DB_HOST, RAG_PORT, and other DB connection vars (DB_USER_RAG, etc.)
+    # are expected to be in librechat.env
+    restart: always
+    depends_on: [] # vectordb is now external
+    networks: # Added network
+      - default
+      - shared_services_network
+
+networks:
+  default:
+  shared_services_network:
+    external: true
+

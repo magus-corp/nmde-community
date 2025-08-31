@@ -1,0 +1,30 @@
+# Name of the application - A brief description of the application.
+# Link to the application's website.
+version: "3.8"
+
+services:
+  app:
+    # The name of the service. This should be the same as the file name (without the extension).
+    container_name: app
+    # The image to use for the service.
+    image: image:latest
+    # The environment variables to use for the service.
+    # env_file:
+    #   - ./env_files/app.env
+    # The volumes to use for the service.
+    # volumes:
+    #   - ./config:/app/config
+    # The restart policy for the service.
+    restart: unless-stopped
+    # The networks to connect the service to.
+    networks:
+      - nmde-network
+    # The labels to apply to the service.
+    labels:
+      - "nmde.app=app"
+      - "nmde.version=1.0"
+
+networks:
+  # The network to use for the application.
+  nmde-network:
+    driver: bridge

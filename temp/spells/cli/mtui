@@ -1,0 +1,14 @@
+#!/bin/bash
+# Wrapper script for MagusTUI
+
+# Path to the MagusTUI virtual environment
+VENV_PATH="$HOME/.magustui/.venv/bin/python"
+
+# Check if the virtual environment exists
+if [ ! -f "$VENV_PATH" ]; then
+    echo "MagusTUI is not installed. Please run the installer."
+    exit 1
+fi
+
+# Run MagusTUI with all passed arguments
+"$VENV_PATH" -m magustui.cli.magustui "$@"

@@ -1,0 +1,157 @@
+#!/usr/bin/env python3
+import os
+import subprocess
+from rich.console import Console
+from rich.prompt import Prompt, Confirm
+from rich.panel import Panel
+from rich.theme import Theme
+
+# --- Rich Console and Theme ---
+custom_theme = Theme({
+    "info": "bold cyan",
+    "success": "bold green",
+    "warning": "bold yellow",
+    "error": "bold red",
+    "path": "blue",
+})
+console = Console(theme=custom_theme)
+
+# --- Constants ---
+PBS_ENV_FILE = "/etc/proxmox-backup/pbs.env"
+BACKUP_SCRIPT_PATH = "/usr/local/bin/backup_home.sh"
+SYSTEMD_SERVICE_PATH = "/etc/systemd/system/pbs-backup.service"
+SYSTEMD_TIMER_PATH = "/etc/systemd/system/pbs-backup.timer"
+
+def run_command(command):
+    """Runs a command and returns its output or raises an exception."""
+    try:
+        return subprocess.run(command, check=True, capture_output=True, text=True)
+    except subprocess.CalledProcessError as e:
+        console.print(f"Error running command: {' '.join(command)}", style="error")
+        console.print(e.stderr, style="error")
+        raise
+
+def create_pbs_env_file(pbs_vars):
+    """Creates the environment file with PBS credentials."""
+    console.print(f"Creating environment file at [path]{PBS_ENV_FILE}[/path]...", style="info")
+    os.makedirs(os.path.dirname(PBS_ENV_FILE), exist_ok=True)
+    with open(PBS_ENV_FILE, "w") as f:
+        f.write(f'PBS_REPOSITORY="{pbs_vars["repo"]}"\n')
+        f.write(f'PBS_PASSWORD="{pbs_vars["token"]}"\n')
+        f.write(f'PBS_FINGERPRINT="{pbs_vars["fingerprint"]}"\n')
+    os.chmod(PBS_ENV_FILE, 0o600)
+    console.print("Environment file created successfully.", style="success")
+
+def create_backup_script(username):
+    """Creates the main backup shell script."""
+    console.print(f"Creating backup script at [path]{BACKUP_SCRIPT_PATH}[/path]...", style="info")
+    script_content = f"""#!/bin/bash
+# This script is managed by magos-pbs-setup. Do not edit directly.
+
+# Load Proxmox Backup Server environment variables
+if [ -f {PBS_ENV_FILE} ]; then
+    source {PBS_ENV_FILE}
+else
+    echo "Error: PBS environment file not found at {PBS_ENV_FILE}" >&2
+    exit 1
+fi
+
+# Define variables
+BACKUP_ID="magos-$(hostname)"
+SOURCE_PATH="/home/{username}"
+LOG_FILE="/var/log/proxmox-backup-home.log"
+
+# Perform the backup
+echo "Starting home folder backup for $BACKUP_ID at $(date)..." | tee -a "$LOG_FILE"
+
+proxmox-backup-client backup \
+    "{{host}}/$BACKUP_ID/$(date --iso-8601=seconds)" \
+    --repository "$PBS_REPOSITORY" \
+    --fingerprint "$PBS_FINGERPRINT" \
+    --password "$PBS_PASSWORD" \
+    --namespace root \
+    "$SOURCE_PATH" \
+    --exclude-path '{SOURCE_PATH}/.cache/*' \
+    --exclude-path '{SOURCE_PATH}/.local/share/Trash/*' \
+    2>&1 | tee -a "$LOG_FILE"
+
+EXIT_CODE=${{PIPESTATUS[0]}}
+
+if [ $EXIT_CODE -eq 0 ]; then
+    echo "Backup of ${{SOURCE_PATH}} completed successfully." | tee -a "$LOG_FILE"
+    # Prune old backups
+    proxmox-backup-client prune host/"$BACKUP_ID" \
+        --repository "$PBS_REPOSITORY" \
+        --fingerprint "$PBS_FINGERPRINT" \
+        --password "$PBS_PASSWORD" \
+        --keep-daily 7 --keep-weekly 4 --keep-monthly 6 \
+        2>&1 | tee -a "$LOG_FILE"
+else
+    echo "Backup of ${{SOURCE_PATH}} failed with exit code $EXIT_CODE." | tee -a "$LOG_FILE"
+fi
+"""
+    with open(BACKUP_SCRIPT_PATH, "w") as f:
+        f.write(script_content)
+    os.chmod(BACKUP_SCRIPT_PATH, 0o755)
+    console.print("Backup script created successfully.", style="success")
+
+def create_systemd_timer():
+    """Creates and enables a systemd timer for daily backups."""
+    console.print("Creating systemd service and timer...", style="info")
+    
+    service_content = f"""[Unit]
+Description=Proxmox Backup for Home Directory
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart={BACKUP_SCRIPT_PATH}
+"""
+    with open(SYSTEMD_SERVICE_PATH, "w") as f:
+        f.write(service_content)
+
+    timer_content = """[Unit]
+Description=Run daily backup for home directory
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+"""
+    with open(SYSTEMD_TIMER_PATH, "w") as f:
+        f.write(timer_content)
+
+    console.print("Enabling and starting the systemd timer...", style="info")
+    run_command(["systemctl", "daemon-reload"])
+    run_command(["systemctl", "enable", "--now", "pbs-backup.timer"])
+    console.print("Systemd timer for daily backups is now active.", style="success")
+
+def main():
+    """The main function to guide the user through PBS setup."""
+    if os.geteuid() != 0:
+        console.print("This script must be run as root to configure system files.", style="error")
+        return
+
+    console.print(Panel("Welcome to the MagOS Proxmox Backup Setup!", title="[bold blue]MagOS PBS Setup[/bold blue]", border_style="blue"))
+    console.print("This spell will guide you through configuring automated backups of your home directory to a Proxmox Backup Server (PBS).")
+
+    pbs_vars = {}
+    pbs_vars["repo"] = Prompt.ask("[info]Enter your PBS Repository string[/info]", default="user@pbs@host:8007:datastore")
+    pbs_vars["token"] = Prompt.ask("[info]Enter your PBS API Token Secret[/info]", password=True)
+    pbs_vars["fingerprint"] = Prompt.ask("[info]Enter your PBS Server Fingerprint[/info]")
+    username_to_backup = Prompt.ask("[info]Which user's home directory do you want to back up?[/info]", default="magus")
+
+    create_pbs_env_file(pbs_vars)
+    create_backup_script(username_to_backup)
+
+    if Confirm.ask("[info]Do you want to schedule an automated daily backup at 3:00 AM?[/info]", default=True):
+        create_systemd_timer()
+
+    console.print(Panel("Setup complete! Your backups are now configured.", style="success"))
+    console.print("You can run a manual backup at any time by executing: [path]sudo /usr/local/bin/backup_home.sh[/path]")
+
+if __name__ == "__main__":
+    main()

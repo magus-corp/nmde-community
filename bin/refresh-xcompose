@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+# Restarts the fcitx5 input method editor to apply changes made to
+# the ~/.XCompose file immediately.
+#
+# This is useful when you add or modify custom key composition rules.
+
+set -euo pipefail
+
+echo "Restarting fcitx5 to apply XCompose changes..."
+
+# Terminate any running fcitx5 process
+if pkill fcitx5; then
+    echo "Stopped existing fcitx5 process."
+else
+    echo "No running fcitx5 process found to stop."
+fi
+
+# Start fcitx5 in the background
+# The 'uwsm app --' part seems to be a custom wrapper.
+# We will keep it as it was in the original function.
+if command -v uwsm &> /dev/null; then
+    uwsm app -- fcitx5 >/dev/null 2>&1 &
+    echo "Started new fcitx5 process via uwsm."
+else
+    fcitx5 >/dev/null 2>&1 &
+    echo "Started new fcitx5 process."
+fi
+
+echo "fcitx5 has been restarted."

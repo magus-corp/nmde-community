@@ -1,0 +1,64 @@
+#!/usr/bin/env python3
+import os
+import sys
+
+# --- Venv Self-Execution ---
+VENV_PYTHON = os.path.expanduser("~/.magustui/.venv/bin/python")
+if sys.executable != VENV_PYTHON:
+    if os.path.exists(VENV_PYTHON):
+        os.execv(VENV_PYTHON, [VENV_PYTHON] + sys.argv)
+    else:
+        print(f"Error: MagusTUI virtual environment not found at {VENV_PYTHON}", file=sys.stderr)
+        sys.exit(1)
+# --- End Venv Self-Execution ---
+
+import subprocess
+import argparse
+from rich.console import Console
+from rich.theme import Theme
+
+def extract_audio_from_folder(folder_path):
+    """
+    A focused incantation to draw the sound from the vision within a specific sanctum.
+    This spell will scan the provided folder for video files and extract their
+    auditory essence into MP3 artifacts.
+    """
+    custom_theme = Theme({
+        "info": "bold cyan",
+        "warning": "bold yellow",
+        "error": "bold red",
+        "success": "bold green",
+        "path": "blue"
+    })
+    console = Console(theme=custom_theme)
+
+    if not os.path.isdir(folder_path):
+        console.print(f"Error: '{folder_path}' is not a directory.", style="error")
+        return
+
+    video_extensions = ['.mp4', '.mkv', '.avi', '.mov', '.flv', '.webm']
+
+    for filename in os.listdir(folder_path):
+        if os.path.isfile(os.path.join(folder_path, filename)) and any(filename.lower().endswith(ext) for ext in video_extensions):
+            video_path = os.path.join(folder_path, filename)
+            base, _ = os.path.splitext(video_path)
+            mp3_path = f"{base}.mp3"
+
+            if os.path.exists(mp3_path):
+                console.print(f"Skipping existing: [path]{mp3_path}[/path]", style="warning")
+                continue
+
+            console.print(f"Extracting audio from '[path]{video_path}[/path]' to '[path]{mp3_path}[/path]'", style="info")
+            subprocess.run([
+                "ffmpeg", "-i", video_path,
+                "-vn", "-ar", "44100", "-ac", "2", "-ab", "192k",
+                mp3_path
+            ])
+
+    console.print("Audio extraction complete.", style="success")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Extracts audio from all video files in a given directory.")
+    parser.add_argument("folder_path", help="The path to the folder containing video files.")
+    args = parser.parse_args()
+    extract_audio_from_folder(args.folder_path)

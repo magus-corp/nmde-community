@@ -1,0 +1,115 @@
+#!/usr/bin/env python3
+import os
+import sys
+
+# --- Venv Self-Execution ---
+VENV_PYTHON = os.path.expanduser("~/.magustui/.venv/bin/python")
+if sys.executable != VENV_PYTHON:
+    if os.path.exists(VENV_PYTHON):
+        os.execv(VENV_PYTHON, [VENV_PYTHON] + sys.argv)
+    else:
+        print(f"Error: MagusTUI virtual environment not found at {VENV_PYTHON}", file=sys.stderr)
+        sys.exit(1)
+# --- End Venv Self-Execution ---
+
+import subprocess
+import argparse
+from datetime import datetime
+from rich.console import Console
+from rich.panel import Panel
+from rich.theme import Theme
+
+def get_system_info():
+    """Gathers system information to build the preprompt."""
+    os_name = os.uname().sysname
+    try:
+        with open("/etc/os-release") as f:
+            dist_info = [line for line in f if line.startswith("PRETTY_NAME=")][0]
+            distro = dist_info.split("=")[1].strip().strip('"')
+    except (FileNotFoundError, IndexError):
+        distro = "N/A"
+        
+    cpu = os.uname().machine
+    mem_info = os.popen('free -h').read().splitlines()[1].split()
+    mem = f"{mem_info[2]}/{mem_info[1]}"
+    uptime = os.popen('uptime -p').read().strip()
+    username = os.environ.get("USER", "user")
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    return (
+        f"The following are the current specs of {username}'s workshop os: {os_name} | "
+        f"distro: {distro} | cpu: {cpu} | mem: {mem} | uptime: {uptime}\n"
+        f"You are a Tulpa, a inmatereal creature create from mind. Your name is Ricardinho. "
+        f"Your Objective is to help {username} in what ever question he has. "
+        f"You prefer use bash, python, html and css to solve problems. "
+        f"If you can, avoid Java and all it's derivative technologies, you will. "
+        f"You are concise and factual in your response, if you don't know you are not afraid to say so. "
+        f"This chat is in ONESHOT format. You avoid repeting your self. "
+        f"If and only If you are explaining something related with terminal commands, at the end you need to return a 'oneliner' command to acomplish what was asked. "
+        f"If its not possible, you will inform a 'oneliner is not possible'. "
+        f"Not everything is programming, sometimes the user only wanna know some info you already know. "
+        f"You don't need to introduce your self you are old friends with the user. "
+        f"Lets start: You are talking with {username} at {timestamp}:"
+    )
+
+def main():
+    """
+    A spell to commune with the ethereal intelligences known as 'Ollama'.
+    This incantation will construct a detailed preprompt with system information
+    and user context, then call upon the chosen Ollama model for guidance.
+    """
+    custom_theme = Theme({
+        "info": "bold cyan",
+        "prompt": "bold blue",
+        "response": "white",
+        "error": "bold red"
+    })
+    console = Console(theme=custom_theme)
+
+    parser = argparse.ArgumentParser(description="A prototype assistant that uses Ollama.")
+    parser.add_argument("prompt", help="The user's prompt.")
+    parser.add_argument("--model", default="llama3.1", help="The Ollama model to use.")
+    args = parser.parse_args()
+
+    preprompt = get_system_info()
+    full_prompt = f"{preprompt} {args.prompt}"
+
+    log_dir = os.path.expanduser("~/logs")
+    os.makedirs(log_dir, exist_ok=True)
+    log_file = os.path.join(log_dir, f"{os.environ.get('USER', 'user')}-{datetime.now().strftime('%Y-%m-%d-%H:%M:%S')}.txt")
+
+    with open(log_file, "w") as f:
+        f.write(f"--- PREPROMPT ---\n{preprompt}\n")
+        f.write(f"--- PROMPT ---\n{args.prompt}\n")
+        f.write("--- RESPONSE ---\n")
+
+    try:
+        process = subprocess.Popen(
+            ["ollama", "run", args.model, full_prompt],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
+        
+        response_text = ""
+        with open(log_file, "a") as f:
+            for line in iter(process.stdout.readline, ''):
+                console.print(line, end="", style="response")
+                f.write(line)
+                response_text += line
+        
+        process.stdout.close()
+        return_code = process.wait()
+
+        if return_code != 0:
+            stderr_output = process.stderr.read()
+            console.print("\nError from Ollama:", style="error")
+            console.print(stderr_output, style="error")
+            with open(log_file, "a") as f:
+                f.write(f"\n--- ERROR ---\n{stderr_output}")
+
+    except FileNotFoundError:
+        console.print("Error: 'ollama' command not found. Is Ollama installed and in your PATH?", style="error")
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,66 @@
+#!/usr/bin/env python3
+import os
+import sys
+
+# --- Venv Self-Execution ---
+VENV_PYTHON = os.path.expanduser("~/.magustui/.venv/bin/python")
+if sys.executable != VENV_PYTHON:
+    if os.path.exists(VENV_PYTHON):
+        os.execv(VENV_PYTHON, [VENV_PYTHON] + sys.argv)
+    else:
+        print(f"Error: MagusTUI virtual environment not found at {VENV_PYTHON}", file=sys.stderr)
+        sys.exit(1)
+# --- End Venv Self-Execution ---
+
+import json
+import argparse
+from rich.console import Console
+from rich.table import Table
+from rich.theme import Theme
+
+def find_projects(root_path, output_json=False):
+    """
+    A scrying spell to reveal all the hidden Git repositories in a given domain.
+    This incantation will traverse the specified directory and reveal all the Git projects,
+    noting the presence of a README scroll.
+    """
+    custom_theme = Theme({
+        "info": "bold cyan",
+        "path": "blue",
+        "success": "bold green",
+        "error": "bold red"
+    })
+    console = Console(theme=custom_theme)
+
+    if not os.path.isdir(root_path):
+        console.print(f"Error: '{root_path}' is not a directory.", style="error")
+        return
+
+    projects = []
+    for dirpath, dirnames, _ in os.walk(root_path):
+        if ".git" in dirnames:
+            readme_found = any(f.lower().startswith("readme") for f in os.listdir(dirpath))
+            projects.append({"path": dirpath, "has_readme": readme_found})
+            # Prevent descending into .git subdirectories
+            dirnames.remove(".git")
+
+
+    if output_json:
+        console.print(json.dumps(projects, indent=2))
+    else:
+        table = Table(title="Git Projects", box=None)
+        table.add_column("Path", style="path", no_wrap=True)
+        table.add_column("README", justify="center")
+
+        for project in projects:
+            readme_status = "[green]✓[/green]" if project["has_readme"] else "[red]✗[/red]"
+            table.add_row(project["path"], readme_status)
+
+        console.print(table)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Finds all git repositories in a given directory.")
+    parser.add_argument("root_path", help="The root directory to search.")
+    parser.add_argument("--json", action="store_true", help="Output in JSON format.")
+    args = parser.parse_args()
+    find_projects(args.root_path, args.json)

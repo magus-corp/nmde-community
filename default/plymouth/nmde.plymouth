@@ -1,0 +1,9 @@
+[Plymouth Theme]
+Name=nmde
+Description=nmde splash screen.
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/nmde
+ScriptFile=/usr/share/plymouth/themes/nmde/nmde.script
+ConsoleLogBackgroundColor=0x1a1b26

@@ -1,0 +1,73 @@
+#!/usr/bin/env python3
+import os
+import sys
+import re
+
+# --- Venv Self-Execution ---
+VENV_PYTHON = os.path.expanduser("~/.magustui/.venv/bin/python")
+if sys.executable != VENV_PYTHON:
+    if os.path.exists(VENV_PYTHON):
+        os.execv(VENV_PYTHON, [VENV_PYTHON] + sys.argv)
+    else:
+        print(f"Error: MagusTUI virtual environment not found at {VENV_PYTHON}", file=sys.stderr)
+        sys.exit(1)
+# --- End Venv Self-Execution ---
+
+import stat
+from rich.console import Console
+from rich.table import Table
+from rich.panel import Panel
+from rich.theme import Theme
+
+def main():
+    """Lists all available spells in the grimoire."""
+    custom_theme = Theme({
+        "info": "bold cyan",
+        "header": "bold blue on white",
+        "path": "blue",
+        "title": "bold yellow",
+        "description": "italic white"
+    })
+    console = Console(theme=custom_theme)
+
+    console.print(Panel("[title]The Grand Grimoire of Spells[/title]\n\n[description]Herein lie the incantations and rituals at the disposal of the Magus.[/description]", border_style="blue"))
+
+    spells_dir = os.path.dirname(os.path.realpath(__file__))
+    
+    table = Table(header_style="header", box=None, show_header=True)
+    table.add_column("Incantation", style="path", no_wrap=True)
+    table.add_column("Purpose", style="description")
+
+    spells = sorted(os.listdir(spells_dir))
+
+    for spell in spells:
+        spell_path = os.path.join(spells_dir, spell)
+        if os.path.isdir(spell_path) or not os.access(spell_path, os.X_OK) or spell == "spellbook" or spell.lower() == "readme.md":
+            continue
+        
+        description = ""
+        try:
+            with open(spell_path, "r", encoding="utf-8") as f:
+                content = f.read()
+                # Look for a docstring in a main function
+                main_docstring_match = re.search(r'def main\(\):\s*"""(.*?)?"""', content, re.DOTALL)
+                if main_docstring_match:
+                    description = " ".join(main_docstring_match.group(1).strip().split())
+                else: # Fallback for top-level docstring
+                    top_level_docstring_match = re.search(r'"""(.*?)?"""', content, re.DOTALL)
+                    if top_level_docstring_match:
+                        description = " ".join(top_level_docstring_match.group(1).strip().split())
+                    else: # Fallback for shell scripts with comments
+                        comment_match = re.search(r'# (.*)', content)
+                        if comment_match:
+                            description = comment_match.group(1).strip()
+
+        except Exception:
+            description = "[dim]An unknown incantation.[/dim]"
+
+        table.add_row(spell, description)
+
+    console.print(table)
+
+if __name__ == "__main__":
+    main()

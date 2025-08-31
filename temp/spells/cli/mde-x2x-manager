@@ -1,0 +1,87 @@
+#!/usr/bin/env python3
+import os
+import subprocess
+import sys
+
+CONFIG_FILE = os.path.expanduser("~/.config/mde/apps/dwm/x2x_targets")
+DWM_PID_CMD = "pgrep dwm"
+
+def get_hosts():
+    if not os.path.exists(CONFIG_FILE):
+        return []
+    with open(CONFIG_FILE, "r") as f:
+        return [line.strip() for line in f.readlines()]
+
+def save_hosts(hosts):
+    with open(CONFIG_FILE, "w") as f:
+        for host in hosts:
+            f.write(f"{host}\n")
+
+def signal_dwm_reload():
+    try:
+        subprocess.run(["pkill", "-USR1", "dwm"], check=True)
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        print("Could not signal dwm to reload. Is it running?", file=sys.stderr)
+
+def dmenu(prompt, options=""):
+    try:
+        p = subprocess.Popen(["dmenu", "-p", prompt], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+        stdout, _ = p.communicate(input=options.encode())
+        return stdout.decode().strip()
+    except FileNotFoundError:
+        print("dmenu not found. Please install it.", file=sys.stderr)
+        sys.exit(1)
+
+def add_host():
+    directions = "east\nwest\nnorth\nsouth"
+    direction = dmenu("Direction:", directions)
+    if not direction:
+        return
+
+    target = dmenu("Target (e.g., user@host:0):")
+    if not target:
+        return
+
+    new_entry = f"{direction} {target}"
+    hosts = get_hosts()
+    
+    # Remove existing entry for the same direction to avoid duplicates
+    hosts = [h for h in hosts if not h.startswith(direction + " ")]
+    hosts.append(new_entry)
+    
+    save_hosts(hosts)
+    signal_dwm_reload()
+    print(f"Added/Updated: {new_entry}")
+
+def remove_host():
+    hosts = get_hosts()
+    if not hosts:
+        print("No hosts to remove.")
+        return
+
+    choice = dmenu("Remove:", "\n".join(hosts))
+    if not choice:
+        return
+
+    if choice in hosts:
+        hosts.remove(choice)
+        save_hosts(hosts)
+        signal_dwm_reload()
+        print(f"Removed: {choice}")
+
+def main():
+    if len(sys.argv) != 2:
+        print(f"Usage: {sys.argv[0]} <add|remove>", file=sys.stderr)
+        sys.exit(1)
+
+    command = sys.argv[1]
+    if command == "add":
+        add_host()
+    elif command == "remove":
+        remove_host()
+    else:
+        print(f"Unknown command: {command}", file=sys.stderr)
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()

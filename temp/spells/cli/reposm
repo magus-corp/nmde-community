@@ -1,0 +1,594 @@
+#!/usr/bin/env python3
+import os
+import sys
+
+# --- Venv Self-Execution ---
+VENV_PYTHON = os.path.expanduser("~/.magustui/.venv/bin/python")
+if sys.executable != VENV_PYTHON:
+    if os.path.exists(VENV_PYTHON):
+        os.execv(VENV_PYTHON, [VENV_PYTHON] + sys.argv)
+    else:
+        print(f"Error: MagusTUI virtual environment not found at {VENV_PYTHON}", file=sys.stderr)
+        sys.exit(1)
+# --- End Venv Self-Execution ---
+
+import argparse
+import json
+import shutil
+import subprocess
+import time
+from rich.console import Console
+from rich.table import Table
+from rich.panel import Panel
+from rich.progress import Progress
+from rich.prompt import Confirm, Prompt
+from rich.theme import Theme
+
+# --- Constants ---
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
+PROTECTED_BRANCHES = ["main", "develop", "homolog"]
+
+# --- Rich Console and Theme ---
+custom_theme = Theme({
+    "info": "bold cyan",
+    "success": "bold green",
+    "warning": "bold yellow",
+    "error": "bold red",
+    "path": "blue",
+    "header": "bold blue on white"
+})
+console = Console(theme=custom_theme)
+
+# --- UTILITY FUNCTIONS ---
+def run_command(command, cwd, quiet=False):
+    try:
+        process = subprocess.run(command, cwd=cwd, capture_output=True, text=True, check=True)
+        return process.stdout.strip()
+    except subprocess.CalledProcessError as e:
+        if not quiet:
+            console.print(f"Error running command: {' '.join(command)}", style="error")
+            console.print(e.stderr.strip() or e.stdout.strip(), style="error")
+        return None
+
+def get_repo_details(repo_path):
+    details = {"path": repo_path, "is_git": False, "owner": "-", "name": "-", "visibility": "-", "status": "-", "branch": "-"}
+    if not os.path.isdir(os.path.join(repo_path, ".git")): return details
+    details["is_git"] = True
+    url = run_command(["git", "-C", repo_path, "config", "--get", "remote.origin.url"], repo_path, quiet=True)
+    if not url:
+        details["status"] = "No remote"
+        return details
+    path = url.replace("https://github.com/", "").replace("git@github.com:", "").replace(".git", "")
+    parts = path.split('/')
+    if len(parts) >= 2: details["owner"], details["name"] = parts[0], parts[1]
+    details["branch"] = run_command(["git", "-C", repo_path, "rev-parse", "--abbrev-ref", "HEAD"], repo_path, quiet=True)
+    details["status"] = get_repo_status(repo_path)
+    if GITHUB_TOKEN and details["owner"] != "-":
+        details["visibility"] = get_repo_visibility(details["owner"], details["name"])
+    return details
+
+def get_repo_status(repo_path):
+    # Check for uncommitted changes first
+    status_porcelain = run_command(["git", "status", "--porcelain"], cwd=repo_path, quiet=True)
+    if status_porcelain:
+        return "Uncommitted"
+
+    run_command(["git", "fetch", "--prune"], cwd=repo_path, quiet=True)
+    local_rev = run_command(["git", "-C", repo_path, "rev-parse", "@"], repo_path, quiet=True)
+    remote_rev = run_command(["git", "-C", repo_path, "rev-parse", "@{u}"], repo_path, quiet=True)
+    base_rev = run_command(["git", "-C", repo_path, "merge-base", "@", "@{u}"], repo_path, quiet=True)
+    if not remote_rev or "no upstream" in remote_rev: return "No upstream"
+    if local_rev == remote_rev: return "Up-to-date"
+    if local_rev == base_rev: return "Behind"
+    if remote_rev == base_rev: return "Ahead"
+    return "Diverged"
+
+def get_repo_visibility(owner, repo):
+    try:
+        import requests
+        response = requests.get(f"https://api.github.com/repos/{owner}/{repo}", headers={"Authorization": f"token {GITHUB_TOKEN}"})
+        if response.status_code == 200:
+            return "Private" if response.json().get("private") else "Public"
+    except ImportError:
+        console.print("Warning: 'requests' library not found. Cannot determine repository visibility.", style="warning")
+    except Exception:
+        pass
+    return "Unknown"
+
+def get_status_style(status):
+    return {"Up-to-date": "green", "Ahead": "yellow", "Behind": "red", "Diverged": "cyan", "Uncommitted": "magenta"}.get(status, "dim")
+
+# --- COMMAND HANDLERS ---
+def handle_info(args):
+    if not GITHUB_TOKEN:
+        console.print("Error: GITHUB_TOKEN is not set.", style="error")
+        return
+
+    dirs_to_check = ["."] if os.path.isdir(".git") else sorted([d for d in os.listdir('.') if os.path.isdir(d)])
+    if not args.all and not os.path.isdir(".git"):
+        dirs_to_check = [d for d in dirs_to_check if os.path.isdir(os.path.join(d, ".git"))]
+
+    table = Table(title="Directory Status Overview", header_style="header", box=None)
+    table.add_column("Folder", style="path")
+    table.add_column("Git Repo")
+    table.add_column("User/Organization")
+    table.add_column("Visibility")
+    table.add_column("Status")
+
+    with Progress(console=console) as progress:
+        task = progress.add_task("[info]Fetching directory details...", total=len(dirs_to_check))
+        for dir_name in dirs_to_check:
+            details = get_repo_details(dir_name)
+            status_style = get_status_style(details["status"])
+            visibility_style = "cyan" if details["visibility"] == "Private" else "white"
+            table.add_row(
+                dir_name,
+                "Yes" if details["is_git"] else "No",
+                details["owner"],
+                f"[{visibility_style}]{details['visibility']}[/]",
+                f"[{status_style}]{details['status']}[/]"
+            )
+            progress.update(task, advance=1)
+    
+    console.print(table)
+
+def handle_sync(args):
+    if not GITHUB_TOKEN:
+        console.print("Error: GITHUB_TOKEN is not set.", style="error")
+        return
+
+    is_single_repo_mode = os.path.isdir(".git")
+    
+    if is_single_repo_mode:
+        dirs_to_check = ["."]
+        details = get_repo_details('.')
+        console.print(Panel(f"Repository: [path]{details['name']}[/path] | Branch: [info]{details['branch']}[/info] | Status: [{get_status_style(details['status'])}]{details['status']}[/]", title="Current Repository Status", border_style="blue"))
+        
+        if details['status'] == 'Up-to-date':
+            console.print("Repository is already up-to-date.", style="success")
+            return
+            
+        if not args.yes and not Confirm.ask("Do you want to synchronize this repository?"):
+            console.print("Sync operation cancelled.", style="warning")
+            return
+    else:
+        dirs_to_check = sorted([d for d in os.listdir('.') if os.path.isdir(d) and d != "not_git_folders"])
+    
+    console.print(Panel(f"Starting Sync Operation: {args.sync_type}", style="info"))
+
+    for dir_name in dirs_to_check:
+        details = get_repo_details(dir_name)
+        if not details["is_git"]:
+            continue
+
+        if not is_single_repo_mode:
+             console.print(f"\n> Checking '[path]{dir_name}[/path]' (Branch: [info]{details['branch']}[/info], Status: [{get_status_style(details['status'])}]{details['status']}[/])")
+
+        if args.sync_type in ["uncommitted", "all"] and details["status"] == "Uncommitted":
+            console.print("  Status is Uncommitted. Staging, committing, and pushing...", style="info")
+            if args.yes or Confirm.ask(f"  Stage, commit, and push changes for '[path]{dir_name}[/path]'?"):
+                run_command(["git", "add", "-A"], cwd=dir_name)
+                commit_message = f"auto-sync: {time.strftime('%Y-%m-%d %H:%M:%S')}"
+                run_command(["git", "commit", "-m", commit_message], cwd=dir_name)
+                run_command(["git", "push"], cwd=dir_name)
+                console.print("  Changes pushed successfully.", style="success")
+            else:
+                console.print("  Skipping.", style="warning")
+
+        if args.sync_type in ["behind", "all"] and details["status"] in ["Behind", "Diverged"]:
+            console.print("  Status is Behind/Diverged. Fetching changes...", style="info")
+            run_command(["git", "fetch"], cwd=dir_name)
+
+        if args.sync_type in ["upstream", "all"] and details["status"] == "No upstream":
+            console.print("  Status is No Upstream. Setting up remote branch...", style="info")
+            if details["visibility"] == "Private" or args.yes or Confirm.ask(f"  Push to PUBLIC repository '[path]{dir_name}[/path]' to set upstream?"):
+                console.print("  Pushing to set upstream...", style="info")
+                run_command(["git", "push", "--set-upstream", "origin", details["branch"]], cwd=dir_name)
+            else:
+                console.print("  Skipping.", style="warning")
+
+        if args.sync_type in ["ahead", "all"] and details["status"] == "Ahead":
+            # If it's a protected branch AND --force is NOT used, create a PR
+            if details["branch"] in PROTECTED_BRANCHES and not args.force:
+                console.print("  Ahead on protected branch. Creating Pull Request...", style="info")
+                new_branch = f"auto-push-{int(time.time())}"
+                run_command(["git", "checkout", "-b", new_branch], cwd=dir_name, quiet=True)
+                run_command(["git", "push", "-u", "origin", new_branch], cwd=dir_name)
+                
+                try:
+                    import requests
+                    payload = json.dumps({"title": f"Automated push from {details['branch']}", "head": new_branch, "base": details["branch"]})
+                    response = requests.post(
+                        f"https://api.github.com/repos/{details['owner']}/{details['name']}/pulls",
+                        data=payload,
+                        headers={"Authorization": f"token {GITHUB_TOKEN}"}
+                    )
+                    response.raise_for_status()
+                    pr_url = response.json().get('html_url')
+                    console.print(f"  Successfully created PR: [success]{pr_url}[/success]")
+                except (ImportError, requests.exceptions.RequestException) as e:
+                    console.print(f"  Failed to create PR: {e}", style="error")
+
+                run_command(["git", "checkout", details["branch"]], cwd=dir_name, quiet=True)
+            # Otherwise (it's a feature branch OR --force IS used on a protected branch), push directly
+            else:
+                if args.force and details["branch"] in PROTECTED_BRANCHES:
+                    console.print("  --force specified. Pushing directly to protected branch.", style="warning")
+                else:
+                    console.print("  Ahead on feature branch.", style="info")
+                
+                if details["visibility"] == "Private" or args.yes or Confirm.ask(f"  Push to PUBLIC repository '[path]{dir_name}[/path]'?"):
+                    console.print("  Pushing...", style="info")
+                    run_command(["git", "push"], cwd=dir_name)
+                else:
+                    console.print("  Skipping.", style="warning")
+
+    console.print(Panel("Sync Operation Complete.", style="success"))
+
+
+def handle_init(args):
+    if not GITHUB_TOKEN:
+        console.print("Error: GITHUB_TOKEN is not set.", style="error")
+        return
+
+    path = args.path
+    owner = args.owner
+
+    if not os.path.isdir(path):
+        console.print(f"Error: Folder '[path]{path}[/path]' does not exist.", style="error")
+        return
+    if os.path.isdir(os.path.join(path, ".git")):
+        console.print(f"Error: '[path]{path}[/path]' is already a Git repository.", style="error")
+        return
+
+    repo_name = os.path.basename(os.path.abspath(path))
+    is_private = not args.public
+
+    console.print(Panel(f"Creating GitHub repository '[info]{repo_name}[/info]' under '[info]{owner}[/info]' (Private: {is_private})", style="info"))
+
+    try:
+        import requests
+        auth_user_req = requests.get("https://api.github.com/user", headers={"Authorization": f"token {GITHUB_TOKEN}"})
+        auth_user_req.raise_for_status()
+        auth_user = auth_user_req.json().get('login')
+
+        api_url = f"https://api.github.com/orgs/{owner}/repos" if owner != auth_user else "https://api.github.com/user/repos"
+        
+        data = json.dumps({"name": repo_name, "private": is_private})
+        response = requests.post(api_url, data=data, headers={"Authorization": f"token {GITHUB_TOKEN}", "Content-Type": "application/json"})
+        response.raise_for_status()
+        
+        repo_data = response.json()
+        ssh_url = repo_data.get("ssh_url")
+
+        if ssh_url:
+            console.print("Remote repository created successfully. Initializing local repository...", style="success")
+            run_command(["git", "init"], cwd=path)
+            run_command(["git", "add", "."], cwd=path)
+            run_command(["git", "commit", "-m", "Initial commit"], cwd=path)
+            run_command(["git", "branch", "-M", "main"], cwd=path)
+            run_command(["git", "remote", "add", "origin", ssh_url], cwd=path)
+            run_command(["git", "push", "-u", "origin", "main"], cwd=path)
+            console.print(f"All done! '[path]{path}[/path]' is now a tracked repository.", style="success")
+        else:
+            console.print("Failed to get ssh_url from response:", repo_data, style="error")
+
+    except ImportError:
+        console.print("Error: 'requests' library not found. Please install it.", style="error")
+    except requests.exceptions.RequestException as e:
+        console.print(f"An error occurred: {e}", style="error")
+        if e.response:
+            console.print(e.response.json(), style="error")
+
+
+def handle_delete(args):
+    if os.path.isdir(".git"):
+        console.print("Error: 'delete' is too destructive for single-repo view.", style="error")
+        return
+
+    console.print(Panel(f"Starting Deletion Operation for '{args.type}' Repos", style="info"))
+    all_dirs = sorted([d for d in os.listdir('.') if os.path.isdir(d) and d != "not_git_folders"])
+
+    for dir_name in all_dirs:
+        details = get_repo_details(dir_name)
+        if not details["is_git"]:
+            continue
+
+        if (args.type == "uptodate" and details["status"] == "Up-to-date") or \
+           (args.type == "behind" and details["status"] == "Behind"):
+            console.print(f"> Found matching repo: '[path]{dir_name}[/path]'", escape=False)
+            if args.yes or Confirm.ask(f"  Delete '[path]{dir_name}[/path]'?"):
+                try:
+                    console.print(f"  Deleting [path]{dir_name}[/path]...", style="warning", escape=False)
+                    shutil.rmtree(dir_name)
+                    console.print("  Successfully deleted.", style="success")
+                except OSError as e:
+                    console.print(f"  Error deleting directory: {e}", style="error")
+            else:
+                console.print("  Skipping.", style="warning")
+
+    console.print(Panel("Deletion Operation Complete.", style="success"))
+
+def handle_clone(args):
+    """Summon a private grimoire from the GitHub astral plane."""
+    if not GITHUB_TOKEN:
+        console.print("Error: GITHUB_TOKEN environment variable not set.", style="error")
+        return
+
+    org = args.owner
+    url = f"https://api.github.com/orgs/{org}/repos?type=private"
+    headers = {"Authorization": f"token {GITHUB_TOKEN}"}
+
+    try:
+        import requests
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        repos_data = response.json()
+
+        repos = {str(i + 1): {"ssh_url": repo["ssh_url"], "full_name": repo["full_name"]} for i, repo in enumerate(repos_data)}
+
+        if not repos:
+            console.print(f"No private repositories found in the '{org}' organization.", style="warning")
+            return
+
+        console.print("Choose a repository to clone:", style="info")
+        for i, repo_info in repos.items():
+            console.print(f"{i}: [path]{repo_info['full_name']}[/path]")
+
+        repo_choice = Prompt.ask("[info]Enter the number of the repository[/info]", choices=list(repos.keys()))
+        repo_to_clone = repos[repo_choice]
+
+        console.print(f"Cloning [path]{repo_to_clone['full_name']}[/path]...", style="info")
+        result = subprocess.run(
+            ["git", "clone", repo_to_clone["ssh_url"]],
+            capture_output=True,
+            text=True
+        )
+
+        if result.returncode == 0:
+            console.print("Repository cloned successfully.", style="success")
+            console.print(result.stdout)
+        else:
+            console.print("Error cloning repository:", style="error")
+            console.print(result.stderr, style="error")
+
+    except ImportError:
+        console.print("Error: 'requests' library not found. Please install it.", style="error")
+    except requests.exceptions.RequestException as e:
+        console.print(f"Error fetching repositories: {e}", style="error")
+
+def handle_organize(args):
+    """Separate the mundane from the magical by moving non-Git folders."""
+    dest_dir = args.dest_dir
+    if not os.path.exists(dest_dir):
+        console.print(f"Creating directory: [path]{dest_dir}[/path]")
+        os.makedirs(dest_dir)
+
+    items = [item for item in os.listdir(".") if os.path.isdir(item) and item != dest_dir]
+    
+    with Progress(console=console) as progress:
+        task = progress.add_task(f"[info]Organizing non-Git folders into [path]{dest_dir}[/path]...", total=len(items))
+        for item in items:
+            if not os.path.isdir(os.path.join(item, ".git")):
+                console.print(f"Moving '[path]{item}[/path]' to '[path]{dest_dir}/[/path]'")
+                try:
+                    shutil.move(item, dest_dir)
+                except shutil.Error as e:
+                    console.print(f"Error moving {item}: {e}", style="error")
+            progress.update(task, advance=1)
+            
+    console.print(Panel("Organization Complete.", style="success"))
+
+def handle_org_info(args):
+    """Scry the remote astral plane for information about a GitHub organization's repositories."""
+    if not GITHUB_TOKEN:
+        console.print("Error: GITHUB_TOKEN environment variable not set.", style="error")
+        return
+
+    org = args.owner
+    console.print(Panel(f"Fetching repository information for organization: [info]{org}[/info]", style="info"))
+
+    try:
+        import requests
+        
+        repos_data = []
+        page = 1
+        with Progress(console=console) as progress:
+            task = progress.add_task(f"[info]Fetching repositories from {org}...", total=None)
+            while True:
+                url = f"https://api.github.com/orgs/{org}/repos?page={page}&per_page=100"
+                headers = {"Authorization": f"token {GITHUB_TOKEN}"}
+                response = requests.get(url, headers=headers)
+                response.raise_for_status()
+                data = response.json()
+                if not data:
+                    break
+                repos_data.extend(data)
+                page += 1
+                progress.update(task, advance=1)
+
+        if not repos_data:
+            console.print(f"No repositories found for the '{org}' organization.", style="warning")
+            return
+
+        table = Table(title=f"Repositories in {org}", header_style="header", box=None)
+        table.add_column("Name", style="path")
+        table.add_column("Visibility")
+        table.add_column("Language")
+        table.add_column("Last Updated")
+        table.add_column("Open Issues")
+
+        for repo in sorted(repos_data, key=lambda x: x['name']):
+            visibility = "Private" if repo.get('private') else "Public"
+            visibility_style = "cyan" if visibility == "Private" else "white"
+            language = repo.get('language', 'N/A') or 'N/A'
+            last_updated = repo.get('updated_at', 'N/A').split('T')[0]
+            open_issues = str(repo.get('open_issues_count', 'N/A'))
+            
+            table.add_row(
+                repo['name'],
+                f"[{visibility_style}]{visibility}[/]",
+                language,
+                last_updated,
+                open_issues
+            )
+        
+        console.print(table)
+
+    except ImportError:
+        console.print("Error: 'requests' library not found. Please install it.", style="error")
+    except requests.exceptions.RequestException as e:
+        console.print(f"Error fetching repositories: {e}", style="error")
+
+def handle_user_info(args):
+    """Scry the remote astral plane for information about a GitHub user's repositories."""
+    if not GITHUB_TOKEN:
+        console.print("Error: GITHUB_TOKEN environment variable not set.", style="error")
+        return
+
+    user = args.username
+    console.print(Panel(f"Fetching repository information for user: [info]{user}[/info]", style="info"))
+
+    try:
+        import requests
+        
+        repos_data = []
+        page = 1
+        with Progress(console=console) as progress:
+            task = progress.add_task(f"[info]Fetching repositories from {user}...", total=None)
+            while True:
+                url = f"https://api.github.com/users/{user}/repos?page={page}&per_page=100"
+                headers = {"Authorization": f"token {GITHUB_TOKEN}"}
+                response = requests.get(url, headers=headers)
+                response.raise_for_status()
+                data = response.json()
+                if not data:
+                    break
+                repos_data.extend(data)
+                page += 1
+                progress.update(task, advance=1)
+
+        if not repos_data:
+            console.print(f"No public repositories found for the user '{user}'.", style="warning")
+            return
+
+        table = Table(title=f"Repositories for {user}", header_style="header", box=None)
+        table.add_column("Name", style="path")
+        table.add_column("Language")
+        table.add_column("Last Updated")
+        table.add_column("Open Issues")
+        table.add_column("Stars")
+
+
+        for repo in sorted(repos_data, key=lambda x: x['name']):
+            language = repo.get('language', 'N/A') or 'N/A'
+            last_updated = repo.get('updated_at', 'N/A').split('T')[0]
+            open_issues = str(repo.get('open_issues_count', 'N/A'))
+            stars = str(repo.get('stargazers_count', 'N/A'))
+
+            table.add_row(
+                repo['name'],
+                language,
+                last_updated,
+                open_issues,
+                stars
+            )
+        
+        console.print(table)
+
+    except ImportError:
+        console.print("Error: 'requests' library not found. Please install it.", style="error")
+    except requests.exceptions.RequestException as e:
+        console.print(f"Error fetching repositories: {e}", style="error")
+
+def handle_justp(args):
+    """A spell to stage all changes, commit them with the current date, and push to the remote repository."""
+    if not os.path.isdir(".git"):
+        console.print("Error: This is not a Git repository.", style="error")
+        return
+
+    console.print(Panel("Staging, committing, and pushing...", style="info"))
+    
+    # Git Add
+    add_output = run_command(["git", "add", "-A", "."], cwd=".")
+    if add_output is None:
+        console.print("Error staging changes.", style="error")
+        return
+    console.print("[success]Staged all changes.[/success]")
+
+    # Git Commit
+    commit_message = time.strftime("%Y-%m-%d %H:%M:%S")
+    commit_output = run_command(["git", "commit", "-m", commit_message], cwd=".")
+    if commit_output is None:
+        # This might not be an error if there's nothing to commit
+        if "nothing to commit" in run_command(["git", "status"], cwd=".", quiet=True):
+             console.print("[warning]No changes to commit.[/warning]")
+        else:
+            console.print("Error committing changes.", style="error")
+            return
+    else:
+        console.print(f"[success]Committed with message: '{commit_message}'[/success]")
+
+
+    # Git Push
+    push_output = run_command(["git", "push"], cwd=".")
+    if push_output is not None:
+        console.print(push_output, style="success")
+        console.print(Panel("Push successful.", style="success"))
+    else:
+        console.print(Panel("Push failed.", style="error"))
+
+def main():
+    """
+    A grand spell of repository mastery, allowing the Magus to command the very
+    fabric of Git and GitHub. This incantation provides a suite of powerful
+    sub-spells to manage, synchronize, and create repositories.
+    """
+    parser = argparse.ArgumentParser(description="A powerful, context-aware CLI tool to automate Git repository management.", formatter_class=argparse.RawTextHelpFormatter)
+    subparsers = parser.add_subparsers(dest="command", required=True)
+    
+    p_info = subparsers.add_parser("info", help="Display a detailed table of all repositories.")
+    p_info.add_argument("-a", "--all", action="store_true", help="Include non-Git folders in the output.")
+    p_info.set_defaults(func=handle_info)
+
+    p_org_info = subparsers.add_parser("org-info", help="Display a detailed table of all repositories in a GitHub organization.")
+    p_org_info.add_argument("owner", help="The GitHub organization to inspect.")
+    p_org_info.set_defaults(func=handle_org_info)
+
+    p_user_info = subparsers.add_parser("user-info", help="Display a detailed table of all public repositories for a GitHub user.")
+    p_user_info.add_argument("username", help="The GitHub user to inspect.")
+    p_user_info.set_defaults(func=handle_user_info)
+
+    p_sync = subparsers.add_parser("sync", help="Synchronize repositories based on their status. Defaults to 'all' if no type is specified.")
+    p_sync.add_argument("sync_type", nargs='?', default='all', choices=["ahead", "behind", "upstream", "uncommitted", "all"], help="The type of sync to perform: 'ahead', 'behind', 'upstream', 'uncommitted', or 'all'.")
+    p_sync.add_argument("-y", "--yes", action="store_true", help="Bypass all confirmations.")
+    p_sync.add_argument("-f", "--force", action="store_true", help="Force push to protected branches.")
+    p_sync.set_defaults(func=handle_sync)
+
+    p_init = subparsers.add_parser("init", help="Create a new GitHub repository from a local folder.")
+    p_init.add_argument("owner", help="The user or organization to own the new repository.")
+    p_init.add_argument("path", help="The path to the local directory to turn into a repository.")
+    p_init.add_argument("--public", action="store_true", help="Make the new repository public (defaults to private).")
+    p_init.set_defaults(func=handle_init)
+
+    p_delete = subparsers.add_parser("delete", help="Delete local repositories based on status.")
+    p_delete.add_argument("type", choices=["uptodate", "behind"], help="The type of repos to delete.")
+    p_delete.add_argument("-y", "--yes", action="store_true", help="Bypass confirmation.")
+    p_delete.set_defaults(func=handle_delete)
+
+    p_clone = subparsers.add_parser("clone", help="Clone a private repository from a GitHub organization.")
+    p_clone.add_argument("owner", help="The GitHub organization to clone from.")
+    p_clone.set_defaults(func=handle_clone)
+
+    p_organize = subparsers.add_parser("organize", help="Move all non-Git folders to a separate directory.")
+    p_organize.add_argument("--dest-dir", default="not_git_folders", help="The destination directory for non-Git folders.")
+    p_organize.set_defaults(func=handle_organize)
+
+    p_justp = subparsers.add_parser("justp", help="A simple alias for 'git push'.")
+    p_justp.set_defaults(func=handle_justp)
+
+    args = parser.parse_args()
+    args.func(args)
+
+if __name__ == "__main__":
+    main()

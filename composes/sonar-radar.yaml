@@ -1,0 +1,53 @@
+version: '3'
+services:
+ radarr:
+  container_name: radarr
+  restart: unless-stopped
+  network_mode: host
+  ports:
+   - 7878:7878
+  volumes:
+    - ~/apps_data/radarr_config:/config
+    - ~/media/movies:/movies
+    - ~/media/downloads:/downloads
+  env_file:
+    - ./env_files/sonar-radar.env
+  image: linuxserver/radarr
+ 
+ sonarr:
+  container_name: sonarr
+  restart: unless-stopped
+  network_mode: host
+  ports:
+   - 8989:8989
+  volumes:
+    - ~/apps_data/sonarr_config:/config
+    - ~/media/series:/tv
+    - ~/media/downloads:/downloads
+  env_file:
+    - ./env_files/sonar-radar.env
+  image: linuxserver/sonarr
+ 
+ jackett:
+  container_name: jackett
+  restart: unless-stopped
+  network_mode: host
+  ports:
+   - 9117:9117
+  volumes:
+   - ~/apps_data/jackett_config:/config
+  env_file:
+    - ./env_files/sonar-radar.env
+  image: linuxserver/jackett
+
+ deluge:
+    image: linuxserver/deluge
+    container_name: deluge
+    network_mode: host
+    env_file:
+      - ./env_files/sonar-radar.env
+    # PUID, PGID, TZ, DELUGE_LOGLEVEL are expected in sonar-radar.env
+    volumes:
+      - ~/apps_data/deluge_config/:/config
+      - ~/media/downloads:/downloads
+    restart: unless-stopped

@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  langflow:
+    image: langflowai/langflow:latest
+    container_name: langflow
+    env_file:
+      - ./env_files/langflow.env
+    ports:
+      - 7860:7860
+    tty: true               
+    stdin_open: true        
+    restart: unless-stopped

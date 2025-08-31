@@ -1,0 +1,96 @@
+#!/usr/bin/env python3
+import os
+import sys
+
+# --- Venv Self-Execution ---
+VENV_PYTHON = os.path.expanduser("~/.magustui/.venv/bin/python")
+if sys.executable != VENV_PYTHON:
+    if os.path.exists(VENV_PYTHON):
+        os.execv(VENV_PYTHON, [VENV_PYTHON] + sys.argv)
+    else:
+        print(f"Error: MagusTUI virtual environment not found at {VENV_PYTHON}", file=sys.stderr)
+        sys.exit(1)
+# --- End Venv Self-Execution ---
+
+import json
+from collections import defaultdict
+from rich.console import Console
+from rich.table import Table
+from rich.theme import Theme
+
+def convert_memory_to_megabytes(value):
+    """Converts Kubernetes memory strings to megabytes."""
+    if not isinstance(value, str):
+        return 0
+    
+    value = value.lower()
+    if value.endswith("ki"):
+        return float(value[:-2]) / 1024
+    if value.endswith("mi"):
+        return float(value[:-2])
+    if value.endswith("gi"):
+        return float(value[:-2]) * 1024
+    if value.endswith("ti"):
+        return float(value[:-2]) * 1024 * 1024
+    return float(value) / (1024 * 1024) # Assume bytes if no unit
+
+def main():
+    """
+    A grand divination to survey the resource essences of the entire Kubernetes realm.
+    This incantation will process a JSON stream of pod data and reveal the total
+    CPU and memory requests and limits for each namespace.
+    """
+    custom_theme = Theme({
+        "info": "bold cyan",
+        "path": "blue",
+        "success": "bold green",
+        "error": "bold red",
+        "header": "bold blue on white"
+    })
+    console = Console(theme=custom_theme)
+
+    try:
+        data = json.load(sys.stdin)
+    except json.JSONDecodeError:
+        console.print("Error: Invalid JSON input from stdin.", style="error")
+        return
+
+    resource_usage = defaultdict(lambda: {"requests": {"cpu": 0, "memory": 0}, "limits": {"cpu": 0, "memory": 0}})
+
+    for item in data.get("items", []):
+        namespace = item.get("metadata", {}).get("namespace", "default")
+        for container in item.get("spec", {}).get("containers", []):
+            resources = container.get("resources", {})
+            for resource_type in ("requests", "limits"):
+                if resource_type in resources:
+                    for key, value in resources[resource_type].items():
+                        if key == "memory":
+                            resource_usage[namespace][resource_type][key] += convert_memory_to_megabytes(value)
+                        elif key == "cpu":
+                            # Assuming CPU is in millicores (m)
+                            if isinstance(value, str) and value.endswith('m'):
+                                resource_usage[namespace][resource_type][key] += float(value[:-1])
+                            else:
+                                resource_usage[namespace][resource_type][key] += float(value) * 1000
+
+
+    table = Table(title="Kubernetes Resource Usage by Namespace", box=None, show_header=True, header_style="header")
+    table.add_column("Namespace", style="path")
+    table.add_column("Requests CPU (m)", justify="right")
+    table.add_column("Requests Memory (Mi)", justify="right")
+    table.add_column("Limits CPU (m)", justify="right")
+    table.add_column("Limits Memory (Mi)", justify="right")
+
+    for namespace, usage in sorted(resource_usage.items()):
+        table.add_row(
+            namespace,
+            f"{usage['requests']['cpu']:.2f}",
+            f"{usage['requests']['memory']:.2f}",
+            f"{usage['limits']['cpu']:.2f}",
+            f"{usage['limits']['memory']:.2f}"
+        )
+
+    console.print(table)
+
+if __name__ == "__main__":
+    main()

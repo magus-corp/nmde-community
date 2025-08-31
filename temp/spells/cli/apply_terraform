@@ -1,0 +1,92 @@
+#!/usr/bin/env python3
+import os
+import sys
+
+# --- Venv Self-Execution ---
+VENV_PYTHON = os.path.expanduser("~/.magustui/.venv/bin/python")
+if sys.executable != VENV_PYTHON:
+    if os.path.exists(VENV_PYTHON):
+        os.execv(VENV_PYTHON, [VENV_PYTHON] + sys.argv)
+    else:
+        print(f"Error: MagusTUI virtual environment not found at {VENV_PYTHON}", file=sys.stderr)
+        sys.exit(1)
+# --- End Venv Self-Execution ---
+
+import subprocess
+import json
+import argparse
+from rich.console import Console
+from rich.theme import Theme
+
+def run_command(command, console, cwd=None):
+    """Runs a command and handles errors."""
+    try:
+        process = subprocess.run(
+            command,
+            check=True,
+            capture_output=True,
+            text=True,
+            cwd=cwd,
+        )
+        return process.stdout.strip()
+    except subprocess.CalledProcessError as e:
+        console.print(f"Error running command: {' '.join(command)}", style="error")
+        console.print(e.stderr, style="error")
+        sys.exit(1)
+    except FileNotFoundError:
+        console.print(f"Command not found: {command[0]}", style="error")
+        sys.exit(1)
+
+def main():
+    """
+    A powerful incantation to weave the very fabric of the cloud,
+    materializing infrastructure from the ethereal plans of Terraform.
+    This spell will conjure forth a GKE cluster and bind it to your will.
+    """
+    custom_theme = Theme({
+        "info": "bold cyan",
+        "warning": "bold yellow",
+        "error": "bold red",
+        "success": "bold green",
+        "path": "blue"
+    })
+    console = Console(theme=custom_theme)
+
+    parser = argparse.ArgumentParser(description="Apply Terraform configuration and configure kubectl.")
+    parser.add_argument("path", nargs="?", default=os.getcwd(), help="Path to the Terraform project (defaults to current directory).")
+    args = parser.parse_args()
+
+    path = args.path
+
+    console.print(f"Working in directory: [path]{path}[/path]", style="info")
+
+    console.print("Initializing Terraform...", style="info")
+    run_command(["terraform", "init"], console, cwd=path)
+
+    console.print("Validating Terraform configuration...", style="info")
+    run_command(["terraform", "validate"], console, cwd=path)
+
+    console.print("Planning Terraform changes...", style="info")
+    run_command(["terraform", "plan", "-out=tfplan"], console, cwd=path)
+
+    console.print("Applying Terraform changes...", style="info")
+    run_command(["terraform", "apply", "-input=false", "tfplan"], console, cwd=path)
+
+    plan_file = os.path.join(path, "tfplan")
+    if os.path.exists(plan_file):
+        os.remove(plan_file)
+
+    console.print("Configuring kubectl to access the GKE cluster...", style="info")
+    cluster_name = json.loads(run_command(["terraform", "output", "-json", "name"], console, cwd=path))
+    region = json.loads(run_command(["terraform", "output", "-json", "region"], console, cwd=path))
+    project_id = json.loads(run_command(["terraform", "output", "-json", "project_id"], console, cwd=path))
+
+    run_command(
+        ["gcloud", "container", "clusters", "get-credentials", cluster_name, "--region", region, "--project", project_id],
+        console
+    )
+
+    console.print("Terraform apply complete and kubectl configured.", style="success")
+
+if __name__ == "__main__":
+    main()

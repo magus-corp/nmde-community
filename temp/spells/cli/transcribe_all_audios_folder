@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Check if the folder path was provided
+if [ -z "$1" ]; then
+  echo "Please provide the folder path as an argument"
+  exit 1
+fi
+
+# Set the folder path
+FOLDER_PATH="$1"
+
+# Loop through all audio files in the folder
+for file in "$FOLDER_PATH"/*.mp3 "$FOLDER_PATH"/*.wav "$FOLDER_PATH"/*.ogg; do
+  # Get the filename without extension
+  filename=$(basename -- "$file")
+  filename="${filename%.*}"
+
+  # Clean the filename by removing special characters and spaces
+  clean_filename=$(echo "$filename" | tr -cd '[:alnum:]' | tr '[:upper:]' '[:lower:]')
+
+  # Set the output file path
+  output_file="$FOLDER_PATH/$clean_filename.json"
+
+  # Run the command
+  echo "Processing $file..."
+  insanely-fast-whisper --model-name distil-whisper/distil-large-v3 --batch-size 196 --file-name "$file" --transcript-path "$output_file"
+done
+

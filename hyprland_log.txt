@@ -1,0 +1,1560 @@
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf
+Selected compositor ID: hyprland.desktop
+          Command Line: Hyprland
+      Plugin/binary ID: hyprland
+ Initial Desktop Names: Hyprland
+                  Name: Hyprland
+           Description: An intelligent dynamic tiling Wayland compositor
+
+Trying to remove unit with unsupported extension conf

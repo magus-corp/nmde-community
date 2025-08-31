@@ -1,0 +1,86 @@
+#!/usr/bin/env python3
+import os
+import sys
+
+# --- Venv Self-Execution ---
+VENV_PYTHON = os.path.expanduser("~/.magustui/.venv/bin/python")
+if sys.executable != VENV_PYTHON:
+    if os.path.exists(VENV_PYTHON):
+        os.execv(VENV_PYTHON, [VENV_PYTHON] + sys.argv)
+    else:
+        print(f"Error: MagusTUI virtual environment not found at {VENV_PYTHON}", file=sys.stderr)
+        sys.exit(1)
+# --- End Venv Self-Execution ---
+
+import subprocess
+import argparse
+from rich.console import Console
+from rich.prompt import Prompt
+from rich.theme import Theme
+
+def run_command(command, console, cwd=None):
+    """Runs a command and handles errors."""
+    try:
+        subprocess.run(
+            command,
+            check=True,
+            capture_output=True,
+            text=True,
+            cwd=cwd,
+        )
+    except subprocess.CalledProcessError as e:
+        console.print(f"Error running command: {' '.join(command)}", style="error")
+        console.print(e.stderr, style="error")
+        exit(1)
+
+def main():
+    """
+    A transmutation spell to convert the ancient scrolls of 'requirements.txt'
+    into the modern grimoire of 'pyproject.toml'. This incantation will
+    initialize a Poetry project and add all the dependencies from the old scroll.
+    """
+    custom_theme = Theme({
+        "info": "bold cyan",
+        "path": "blue",
+        "success": "bold green",
+        "error": "bold red",
+        "warning": "bold yellow"
+    })
+    console = Console(theme=custom_theme)
+
+    parser = argparse.ArgumentParser(description="Migrate a requirements.txt file to a poetry project.")
+    parser.add_argument("path", nargs="?", default=os.getcwd(), help="Path to the project directory (defaults to current directory).")
+    args = parser.parse_args()
+
+    path = args.path
+
+    if not os.path.isdir(path):
+        console.print(f"Error: The specified path does not exist: [path]{path}[/path]", style="error")
+        return
+
+    console.print(f"Working in directory: [path]{path}[/path]", style="info")
+
+    pyproject_path = os.path.join(path, "pyproject.toml")
+    if not os.path.exists(pyproject_path):
+        console.print("pyproject.toml not found.", style="warning")
+        py_version = Prompt.ask("[info]Enter the required Python version (e.g., 3.9)[/info]")
+        run_command(["asdf", "local", "python", py_version], console, cwd=path)
+        console.print("Creating pyproject.toml using 'poetry init -n'.", style="info")
+        run_command(["poetry", "init", "-n"], console, cwd=path)
+
+    requirements_path = os.path.join(path, "requirements.txt")
+    if not os.path.exists(requirements_path):
+        console.print("Error: requirements.txt not found.", style="error")
+        return
+
+    with open(requirements_path, "r") as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith("#"):
+                console.print(f"Adding package: [info]{line}[/info]")
+                run_command(["poetry", "add", line], console, cwd=path)
+
+    console.print("Done adding packages.", style="success")
+
+if __name__ == "__main__":
+    main()

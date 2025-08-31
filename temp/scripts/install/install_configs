@@ -1,0 +1,44 @@
+#!/bin/bash
+sudo chsh -s $(which zsh) $USER
+
+MDE_DOTS_DIR="$HOME/.config/mde/dots"
+CONFIG_DIR="$HOME/.config"
+
+# Ensure target .config subdirectories exist if necessary
+mkdir -p "$CONFIG_DIR/htop"
+mkdir -p "$CONFIG_DIR/rofi"
+mkdir -p "$CONFIG_DIR/terminator"
+mkdir -p "$CONFIG_DIR/shell"
+
+# Use ln -sfn to forcibly create/update symbolic links
+ln -sfn "$MDE_DOTS_DIR/htop" "$CONFIG_DIR/htop"
+ln -sfn "$MDE_DOTS_DIR/rofi" "$CONFIG_DIR/rofi"
+ln -sfn "$MDE_DOTS_DIR/terminator/config" "$CONFIG_DIR/terminator/config" # Link the config file itself
+ln -sfn "$MDE_DOTS_DIR/shell" "$CONFIG_DIR/shell"
+
+ln -sfn "$MDE_DOTS_DIR/zsh/.zshrc" "$HOME/.zshrc"
+ln -sfn "$MDE_DOTS_DIR/zsh/.zcompdump" "$HOME/.zcompdump"
+ln -sfn "$MDE_DOTS_DIR/zsh/.zprofile" "$HOME/.zprofile"
+ln -sfn "$MDE_DOTS_DIR/zsh/.zprofile" "$HOME/.bash_profile" # zprofile can often serve as bash_profile
+
+ln -sfn "$MDE_DOTS_DIR/x11/xinitrc" "$HOME/.xinitrc"
+ln -sfn "$MDE_DOTS_DIR/x11/xprofile" "$HOME/.xprofile"
+ln -sfn "$MDE_DOTS_DIR/x11/xresources" "$HOME/.xresources"
+
+ln -sfn "$MDE_DOTS_DIR/user-dirs.dirs" "$CONFIG_DIR/user-dirs.dirs"
+ln -sfn "$MDE_DOTS_DIR/user-dirs.locale" "$CONFIG_DIR/user-dirs.locale" # Corrected source path
+
+# Source .zshrc if it exists and we are in zsh, otherwise it will be sourced on next shell start
+if [ -n "$ZSH_VERSION" ]; then
+    source "$HOME/.zshrc"
+elif [ -f "$HOME/.zshrc" ]; then
+    echo "Sourcing .zshrc for other shells is not done automatically. Please start a new zsh session."
+fi
+
+# Install uv (Python package manager)
+if ! command -v uv &> /dev/null; then
+    echo "Installing uv..."
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+else
+    echo "uv is already installed."
+fi

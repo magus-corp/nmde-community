@@ -1,0 +1,7 @@
+#!/bin/bash
+
+nmde-refresh-config swayosd/config.toml
+nmde-refresh-config swayosd/style.css
+
+pkill swayosd-server
+setsid uwsm app -- swayosd-server &>/dev/null &

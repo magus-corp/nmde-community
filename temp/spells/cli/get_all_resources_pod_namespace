@@ -1,0 +1,85 @@
+#!/usr/bin/env python3
+import os
+import sys
+
+# --- Venv Self-Execution ---
+VENV_PYTHON = os.path.expanduser("~/.magustui/.venv/bin/python")
+if sys.executable != VENV_PYTHON:
+    if os.path.exists(VENV_PYTHON):
+        os.execv(VENV_PYTHON, [VENV_PYTHON] + sys.argv)
+    else:
+        print(f"Error: MagusTUI virtual environment not found at {VENV_PYTHON}", file=sys.stderr)
+        sys.exit(1)
+# --- End Venv Self-Execution ---
+
+import argparse
+import json
+import subprocess
+from rich.console import Console
+from rich.table import Table
+from rich.theme import Theme
+
+def kubectl(command, console):
+    """Executes a kubectl command and returns the JSON output."""
+    try:
+        result = subprocess.run(
+            ["kubectl"] + command,
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        return json.loads(result.stdout) if result.stdout else None
+    except subprocess.CalledProcessError as e:
+        console.print(f"Error running kubectl command: {' '.join(command)}", style="error")
+        console.print(e.stderr, style="error")
+        exit(1)
+    except json.JSONDecodeError:
+        console.print("Error: Could not decode JSON from kubectl output.", style="error")
+        return None
+
+def main(namespace):
+    """
+    A divination spell to reveal the CPU essence of all pods in a Kubernetes namespace.
+    This incantation will peer into the ethereal plane of Kubernetes and report on the
+    CPU requests of each pod.
+    """
+    custom_theme = Theme({
+        "info": "bold cyan",
+        "path": "blue",
+        "success": "bold green",
+        "error": "bold red",
+        "header": "bold blue on white"
+    })
+    console = Console(theme=custom_theme)
+
+    console.print(f"Fetching CPU requests for pods in namespace: [path]{namespace}[/path]", style="info")
+
+    pods = kubectl(["get", "pods", "-n", namespace, "-o", "json"], console)
+
+    if not pods or not pods.get("items"):
+        console.print(f"No pods found in namespace '{namespace}'.", style="info")
+        return
+
+    table = Table(title=f"Pod CPU Requests in Namespace: [info]{namespace}[/info]", box=None, show_header=True, header_style="header")
+    table.add_column("Pod")
+    table.add_column("Container")
+    table.add_column("CPU Request")
+
+    for pod in pods["items"]:
+        pod_name = pod["metadata"]["name"]
+        containers = pod["spec"].get("containers", [])
+        for i, container in enumerate(containers):
+            container_name = container["name"]
+            cpu_request = container.get("resources", {}).get("requests", {}).get("cpu", "[yellow]Not set[/yellow]")
+            
+            # Only print the pod name for the first container
+            pod_display_name = f"[path]{pod_name}[/path]" if i == 0 else ""
+            table.add_row(pod_display_name, f"[path]{container_name}[/path]", cpu_request)
+
+    console.print(table)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Get CPU requests for all pods in a namespace.")
+    parser.add_argument("namespace", help="The Kubernetes namespace to inspect.")
+    args = parser.parse_args()
+    main(args.namespace)
